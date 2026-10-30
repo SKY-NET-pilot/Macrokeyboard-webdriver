@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CH57x Web Driver v7.7.8</title>
+<style>
+:root{font-family:system-ui,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color-scheme:dark;--bg:#0d0d0e;--panel:#1b1b1d;--edge:#39393e;--muted:#aaaaaf;--blue:#c0c0c5;--green:#6edcb0;--orange:#ffc779}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#252528 0%,var(--bg) 47%);color:#f4f4f5}main{max-width:1010px;margin:0 auto;padding:30px 18px 70px}h1{font-size:clamp(24px,4vw,33px);margin:10px 0 4px}h2{font-size:18px;margin:0 0 15px}p{line-height:1.55}.muted,small{color:var(--muted)}small{line-height:1.45}.tag{display:inline-flex;align-items:center;border:1px solid #545459;color:#dddddf;border-radius:999px;padding:4px 12px;font-size:12px;background:#29292c}.card{border:1px solid var(--edge);border-radius:18px;background:var(--panel);padding:21px;margin-top:16px;box-shadow:0 10px 32px #0002}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.grow{flex:1}.pill{border-radius:999px;padding:7px 13px;background:#2a2a2d;color:#e0e0e2;font-size:13px}.pill.ok{color:#9af2c9;background:#173d35}.pill.warn{color:#ffd29b;background:#4b341d}button,select,input,textarea{font:inherit;background:#262629;color:#f5f5f5;border:1px solid #55555b;border-radius:10px;padding:11px}button{cursor:pointer}button:hover:enabled{border-color:#e1e1e4}button:disabled{opacity:.43;cursor:not-allowed}.primary{background:linear-gradient(125deg,#46464b,#67676e);border-color:#85858b;font-weight:650}.outline{background:#2b2b30}.notice{border-left:3px solid var(--orange);padding:10px 13px;background:#49381f44;color:#fbdcb5;border-radius:0 8px 8px 0}.goodnotice{border-left-color:var(--green);background:#163c3344;color:#c0f5dc}.layout{display:grid;grid-template-columns:repeat(3,1fr) 132px;gap:14px;max-width:780px;margin:16px auto 14px}.key{min-height:122px;font-size:17px;font-weight:750;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:5px}.key small{font-weight:400;font-size:11px}.key.active{outline:2px solid #f0f0f0;background:#39393e}.dial{grid-column:4;grid-row:1/3;border-radius:999px;width:119px;height:119px;background:linear-gradient(145deg,#66666b,#37373b);border:8px solid #85858c;margin:auto;box-shadow:inset 0 4px 12px #141416}.knobs{grid-column:1/5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.knobs .key{min-height:72px;font-size:15px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.field{display:flex;flex-direction:column;gap:6px;margin-top:12px}label{font-size:13px;color:#d4d4d8}input,select,textarea{width:100%}textarea{min-height:90px;resize:vertical}input[type=checkbox]{width:auto;vertical-align:middle;accent-color:#dadade}.checks{display:flex;gap:18px;flex-wrap:wrap;margin:9px 0}.hidden{display:none!important}.step-list{display:flex;flex-direction:column;gap:9px;margin:10px 0 25px}.step-row{display:flex;align-items:center;gap:9px;text-align:left;width:100%;padding:10px 12px}.step-row.chosen{border-color:#f0f0f0;background:#34343a}.step-row span:first-child{font-size:12px;color:#d3d3d7;min-width:60px}.step-row strong{font-size:14px;overflow-wrap:anywhere}.toggle-on{background:#404047!important;border-color:#b5b5bb!important;box-shadow:inset 0 0 0 1px #dddddf}#stepkey{max-width:400px}#stepkeyselect{max-width:400px}.delay-input{max-width:230px}.delay-field{margin-top:20px;padding-top:14px;border-top:1px solid #404047}pre{background:#101012;border:1px solid #414147;color:#e4e4e7;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:250px;padding:13px;border-radius:10px;font-size:12px;line-height:1.55}.below{font-size:13px;color:#b7b7bd}.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.steps>*{flex-shrink:0}#summary{margin:10px 0 0;min-height:25px}.divider{border-top:1px solid #404047;padding-top:15px;margin-top:16px}.footer{font-size:12px;color:#a4a4aa;line-height:1.6;margin-top:20px}a{color:#dddddf}code{color:#ebebed}@media(max-width:680px){.grid{grid-template-columns:1fr}.layout{grid-template-columns:repeat(3,1fr);gap:8px}.key{min-height:78px;font-size:14px}.dial{grid-column:1/4;grid-row:2;width:97px;height:97px}.knobs{grid-column:1/4;grid-row:3;gap:6px}.knobs .key{min-height:63px;font-size:12px}main{padding:14px 12px 50px}.card{padding:15px}.row{gap:7px}}
+
+/* v7.7.8 neutral graphite theme */
+:root{--blue:#c4c4ca;accent-color:#e2e2e5}button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #c7c7cc;outline-offset:2px} .primary{background:linear-gradient(135deg,#3e3e43,#5e5e65);color:#fff;border-color:#77777e}.primary:hover:enabled{background:linear-gradient(135deg,#505057,#717179)}
+ .universal-layout{margin:16px auto;max-width:860px}.universal-keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.universal-knobs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.universal-knobs .key{min-height:72px;font-size:13px}@media(max-width:680px){.universal-keys{grid-template-columns:repeat(3,minmax(0,1fr))}.universal-knobs .key{min-height:62px;font-size:11px}}
+
+/* Physical keycaps and expandable rotary encoders */
+.universal-keys{align-items:stretch;gap:12px}
+.universal-keys .keycap{position:relative;min-height:94px;border-radius:13px 13px 17px 17px;border:1px solid #66666e;border-bottom:6px solid #44444b;background:linear-gradient(145deg,#414148,#252528);box-shadow:inset 0 2px 3px #ffffff16,0 5px 10px #0005;font-weight:720;transition:background .12s,border-color .12s}
+.universal-keys .keycap small{color:#c5c5ce;font-size:11px;font-weight:400}
+.universal-keys .keycap.active{background:linear-gradient(145deg,#686873,#35353c);border-color:#e3e3ec;outline:2px solid #dedee5;outline-offset:1px}
+.universal-knobs{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:18px;margin-top:23px}
+.encoder-wrap{display:flex;align-items:center;flex-direction:column;gap:8px}
+.encoder-dial{width:104px;height:104px;border:8px solid #777780;border-radius:50%;background:radial-gradient(circle at 38% 28%,#74747e 0%,#44444e 46%,#242429 100%);box-shadow:inset 0 3px 8px #000a,0 5px 12px #0008;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;padding:0}
+.encoder-dial:before{content:'';position:absolute;top:9px;left:calc(50% - 2px);width:4px;height:15px;border-radius:3px;background:#ededf3}
+.encoder-dial:after{content:'';width:56px;height:56px;border-radius:50%;border:1px solid #a1a1ac;background:radial-gradient(circle at 35% 25%,#71717a,#42424b 70%);box-shadow:0 3px 7px #0006}
+.encoder-dial:hover,.encoder-dial.open{border-color:#dedee6}
+.encoder-title{font-size:13px;color:#e4e4eb;font-weight:650}
+.encoder-hint{font-size:11px;color:#aaaab4}
+.knob-panel{margin-top:17px;border:1px solid #585860;background:#252529;border-radius:13px;padding:16px}
+.knob-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.knob-panel-head strong{font-size:14px}
+.knob-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.knob-action{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:100px;background:linear-gradient(#393941,#29292f);border:1px solid #6b6b76;border-radius:12px;font-size:14px}
+.knob-action .action-icon{font-size:23px;line-height:1}
+.knob-action small{font-size:10px;color:#bdbdc6}
+.knob-action.active{outline:2px solid #ebebf0;outline-offset:1px;background:#4d4d56}
+@media(max-width:580px){.universal-keys .keycap{min-height:72px;font-size:13px}.encoder-dial{width:88px;height:88px}.knob-panel{padding:10px}.knob-options{gap:6px}.knob-action{font-size:12px;min-height:85px;padding:5px}.knob-action small{font-size:9px}}
+#legacyKeyGrid .keycap{min-height:90px}#legacyKnobGrid .knob-action.active{outline:2px solid #eeeef1;background:#565660}#legacy8890 .pill{display:flex;align-items:center;min-height:43px}#legacy8890 #legacyEditor{scroll-margin-top:64px}
+.led-observation{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:12px 0;padding:14px;border:1px solid #52525a;border-radius:12px;background:#222226}
+.led-observation .observed-dot{display:inline-block;flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:3px solid #80808a;background:#29292f;box-shadow:none}
+.led-observation .observed-fields{display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:10px;flex:1;min-width:210px}
+.led-observation .observed-fields label{display:block;margin-bottom:5px}
+.led-observation .observed-fields select{width:100%}
+@media(max-width:540px){.led-observation .observed-fields{grid-template-columns:1fr}}
+
+
+/* Standard / AA design switch and clearly visible compatibility states. */
+.driver-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:7px 0 14px}
+.driver-head .driver-title{flex:1;min-width:270px}
+.design-picker{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:252px}
+.design-title{font-size:12px;letter-spacing:.04em;color:#b8b8c0;font-weight:650}
+.design-buttons{display:flex;gap:6px;padding:5px;border:1px solid #57575f;background:#202024;border-radius:13px}
+.design-buttons button{border-color:transparent;background:transparent;color:#bdbdc7;padding:10px 19px;min-width:104px;border-radius:9px;font-size:14px;font-weight:700}
+.design-buttons button[aria-pressed="true"]{background:#62626b;border-color:#aaaab2;box-shadow:0 2px 8px #0006;color:#fff}
+.design-buttons button:focus-visible{outline:2px solid white;outline-offset:2px}
+.design-hint{text-align:right;font-size:12px;color:#b8b8c1;max-width:340px;line-height:1.45}
+.design-hint.attention{color:#ffabb4}
+.pill.error,.pill.disconnected{background:#57222a!important;border:1px solid #eb6975!important;color:#ffe0e3!important;font-weight:700}
+.compatibility-row{margin-top:12px;gap:10px}
+.compatibility-row #compatBadge{font-size:13px}
+.compat-message{padding:11px 13px;margin:10px 0 7px;line-height:1.55;border-radius:10px;font-size:13px;border:1px solid #e2707d;background:#481b24;color:#ffe1e5;font-weight:600}
+.compat-message.ok{border-color:#31715e;background:#183c31;color:#b7f6d8}
+.compat-message.warn{border-color:#a87e43;background:#3b2c1e;color:#f9deb2}
+#connectiontip.connection-error{border-left-color:#ff6b80;background:#471d244d;color:#ffc4cc}
+@media(max-width:680px){.driver-head{gap:10px}.design-picker{margin-left:0;align-items:stretch;width:100%}.design-buttons{width:max-content;max-width:100%}.design-hint{text-align:left}}
+</style>
+</head>
+<body><div style="position:sticky;top:0;z-index:9999;background:#242427;color:white;padding:10px 18px;font:600 16px system-ui;text-align:center">CH57x · 범용 웹드라이버 v7.7.8 · CH57x-1 / CH57x-2 디자인 직접 전환</div><main>
+<div class="driver-head">
+ <div class="driver-title">
+  <span class="tag">Windows · Chrome / Edge · WebHID</span>
+  <h1>CH57x <span style="color:#e1e1e4">Web Driver</span></h1>
+  <p class="muted" style="margin:2px 0 0">CH57x HID 호환 제품 · 설정 HID Report <code>0x03</code> · 로컬 전용 / 서버 업로드 없음</p>
+ </div>
+ <nav class="design-picker" aria-label="설정 화면 디자인 선택">
+  <span class="design-title">설정 화면 디자인 선택</span>
+  <div class="design-buttons" role="group" aria-label="CH57x-1 또는 CH57x-2 디자인">
+   <button id="viewStandard" type="button" aria-pressed="true">CH57x-1</button>
+   <button id="viewAA" type="button" aria-pressed="false">CH57x-2</button>
+  </div>
+  <span class="design-hint" id="viewModeHint" aria-live="polite">CH57x-1 디자인 미리보기 · 장치 연결 없음</span>
+ </nav>
+</div>
+<section class="card">
+<h2>1. USB 키보드 연결</h2>
+<p class="below">CH57x-1과 CH57x-2 디자인은 화면 오른쪽 위에서 장치 연결 없이도 선택해 볼 수 있습니다. 실제 USB 연결 시 확인된 장치 프로토콜에 맞는 화면이 자동 선택됩니다. 화면 선택은 통신 프로토콜을 변경하지 않으며, 호환성이 확인되지 않은 장치로는 설정을 보내지 않습니다.</p>
+<div class="row compatibility-row"><button id="connect" class="primary">USB 장치 연결</button><button id="disconnect" disabled>연결 해제</button><span id="status" class="pill disconnected" role="status">연결되지 않음</span><span id="compatBadge" class="pill disconnected" role="status">호환 장치 미연결</span></div>
+<p id="compatMessage" class="compat-message" role="status" aria-live="polite">적절한 CH57x 장치가 연결되지 않았습니다. USB 장치를 연결하면 CH57x-1 / CH57x-2 호환성을 확인합니다.</p>
+<p class="below" id="device">Windows에 보이는 <code>MI_01</code>은 일반 키보드 인터페이스일 수 있습니다. 설정 통신은 <code>FF00:0001</code>의 제조사 전용 HID 인터페이스가 필요합니다. USB ID는 컴퓨터가 아닌 장치에서 보고하는 값입니다.</p>
+<p class="notice" id="connectiontip">Chrome/Edge의 <b>http://localhost</b> 또는 HTTPS에서 열어야 합니다. 제조사 설정 프로그램이 실행 중이라면 먼저 종료하세요.</p>
+</section>
+<section class="card" id="standardReadPanel">
+<div class="row"><h2 class="grow" style="margin:0">2. 기존 설정 읽기</h2><label for="layer">저장 레이어</label><select id="layer" style="width:94px"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select><button id="read" disabled>다시 읽기</button></div>
+<p class="below">장치 선택 창의 제품명은 브라우저/USB 펌웨어에서 제공하므로 바꿀 수 없습니다. 연결 후 웹페이지에는 CH57x 키/노브 개수 및 USB ID를 표시합니다. 처음 연결할 때 레이어 1을 읽고 물리 키와 노브 수에 맞는 편집 버튼을 생성합니다. 설정을 모두 읽어야 쓰기 기능이 활성화됩니다. 레이어 2/3의 실제 전환은 제품 펌웨어에 따라 다릅니다.</p>
+<div class="universal-layout"><div id="keygrid" class="universal-keys"><button class="key keycap active" data-slot="1">KEY 1<small>슬롯 1</small></button><button class="key keycap" data-slot="2">KEY 2<small>슬롯 2</small></button><button class="key keycap" data-slot="3">KEY 3<small>슬롯 3</small></button></div><div id="knobgrid" class="universal-knobs"><div class="encoder-wrap"><button type="button" class="encoder-dial" data-knob="0" aria-label="노브 1 동작 펼치기" aria-expanded="false"></button><span class="encoder-title">KNOB 1</span><span class="encoder-hint">클릭하여 세 동작 보기</span></div></div><div id="knobpanel" class="knob-panel hidden"><div class="knob-panel-head"><strong id="knobpaneltitle">KNOB 1 설정</strong><button type="button" id="closeknob" class="outline">접기 ×</button></div><div id="knoboptions" class="knob-options"></div></div></div>
+<p id="summary" class="below">선택한 KEY 1 · 장치에서 설정을 읽으면 현재 동작이 여기에 표시됩니다.</p>
+<div class="steps"><button id="backup" disabled>설정 백업 (.json)</button><button id="restorechoose">백업 불러오기 / 복원</button><input id="restorefile" class="hidden" type="file" accept=".json,application/json"/><button id="restorewrite" class="primary" disabled>검증된 백업 복원 실행</button><button type="button" onclick="document.getElementById('copylog').click()">진단 로그 복사</button></div>
+<p id="restorepreview" class="below">백업 JSON을 선택하면 복원 대상 슬롯과 제한 사항을 표시합니다. 백업을 읽기만 해서는 기기 설정이 바뀌지 않습니다.</p>
+</section>
+<section class="card" id="standardEditPanel">
+<h2>3. 선택한 입력 변경</h2>
+<p class="below" id="target">KEY 1을 편집합니다. 아래 값은 새로운 설정이며, 기존 설정을 읽은 경우 각 입력을 선택하면 아래 편집기에 자동으로 표시됩니다.</p>
+<div class="grid">
+<div class="field"><label for="kind">동작 종류</label><select id="kind"><option value="keyboard">키보드 단축키 / 매크로</option><option value="media">음량 · 음악 · 시스템</option><option value="mouse">마우스</option><option value="none">동작 없음</option></select></div>
+<div class="field" id="mediafield"><label for="media">미디어 동작</label><select id="media"></select></div>
+<div class="field" id="mousefield"><label for="mouse">마우스 동작</label><select id="mouse"><option value="left">왼쪽 클릭</option><option value="right">오른쪽 클릭</option><option value="middle">가운데 클릭</option><option value="wheelup">휠 up</option><option value="wheeldown">휠 down</option></select></div>
+</div>
+<div class="field" id="keyboardfield"><label>키보드 단축키 / 순차 매크로 편집기 (최대 18 Step)</label>
+<div class="notice">같은 Step의 왼쪽/오른쪽 수정키는 일반 키와 동시에 입력됩니다. 각 Step은 위에서 아래 순서로 실행됩니다.</div>
+<div class="row"><button type="button" id="addstep">+ Step 추가</button><button type="button" id="removestep">선택 Step 삭제</button><button type="button" id="upstep">↑ 위로</button><button type="button" id="downstep">↓ 아래로</button></div>
+<div id="steplist" class="step-list" aria-label="매크로 단계"></div>
+<div class="field"><label>선택한 Step의 조합키 (눌러서 켜기/끄기)</label><div class="row" id="modbuttons"><button type="button" data-mod="ctrl">Ctrl</button><button type="button" data-mod="shift">Shift</button><button type="button" data-mod="alt">Alt</button><button type="button" data-mod="win">Win</button><button type="button" data-mod="rctrl">RCtrl</button><button type="button" data-mod="rshift">RShift</button><button type="button" data-mod="ralt">RAlt</button><button type="button" data-mod="rwin">RWin</button></div></div>
+<div class="field"><label>선택한 Step의 일반 키</label><div class="row" id="keybuttons"><button type="button" data-special="tab">Tab</button><button type="button" data-special="capslock">Caps Lock</button><button type="button" data-special="enter">Enter</button><button type="button" data-special="esc">Esc</button><button type="button" data-special="space">Space</button></div><label for="stepkeyselect">목록에서 일반 키 선택</label><select id="stepkeyselect" aria-label="선택한 Step의 일반 키 선택"><option value="">직접 입력 / 목록에서 선택</option></select><label for="stepkey">또는 일반 키 직접 입력</label><input id="stepkey" autocomplete="off" placeholder="예: a, 1, f5, delete, comma, period"/><small>선택 박스와 직접 입력창은 서로 연동됩니다. 키를 선택하면 해당 Step이 즉시 갱신됩니다. 기존처럼 일반 키 이름을 직접 입력할 수도 있습니다.</small><small>한 Step에는 조합키 여러 개와 일반 키 하나를 지정할 수 있습니다. Ctrl만 단독으로 누르는 입력은 현재 CH57x-1 프로토콜에서 지원이 확인되지 않았습니다.</small></div>
+<div class="field delay-field"><label for="stepdelay">선택한 Step의 Delay (ms)</label><input id="stepdelay" class="delay-input" type="number" min="0" max="6000" step="1" value="0"/><small>지연은 0~6000ms, 1ms 단위입니다. 이 모델은 각 Step에 독립된 지연값을 저장하지 못하고 매크로 전체에 공통 지연값만 지원합니다. 서로 다른 값이 있으면 저장을 차단합니다. 장치의 기존 지연값은 읽기로 확인할 수 없습니다.</small></div><div class="field"><label for="macro">전체 Step 텍스트 (고급 편집, 쉼표 구분도 호환)</label><textarea id="macro" spellcheck="false" placeholder="ctrl+c, ctrl+v">ctrl+c</textarea><small>위 버튼으로 편집하면 자동 갱신됩니다. 이 텍스트를 직접 편집하면 Step 목록에도 반영됩니다.</small></div></div>
+<div class="divider"><div class="steps"><button id="stage">변경 명령 미리보기</button><button id="write" class="primary" disabled>실제 기기에 저장</button></div><p id="preview" class="below">미리보기를 만든 뒤 내용을 확인하고 저장하세요.</p></div>
+<p class="notice"><strong>v7.7.8: 기기가 보고한 각 KEY 및 노브 슬롯을 정상적으로 읽은 경우에만 저장할 수 있습니다. 읽기 응답이 누락되거나 충돌한 슬롯은 자동으로 저장이 차단됩니다.</strong> 저장 시 해당 슬롯의 원래 설정이 덮어써집니다. 먼저 JSON 백업을 권장합니다. 읽어온 설정과 저장 후 다시 읽은 설정을 비교합니다. 처음에는 하나의 키부터 테스트하세요.</p>
+</section>
+<section class="card" id="ledpanel">
+<h2>4. LED 조명 설정 (키·매크로 저장과 별개)</h2>
+<p class="below">현재 선택한 레이어에 적용됩니다. 색상은 지정된 8가지 색상 중 선택할 수 있으며, 임의 RGB/키별 독립 색상은 이 프로토콜에서 지원하지 않습니다.</p>
+<div class="grid">
+<div class="field"><label for="ledmode">LED 효과</label><select id="ledmode"><option value="1">항상 켜짐 (Steady)</option><option value="0">끄기 (Off)</option><option value="2">순방향 웨이브 (Wave)</option><option value="3">현재 LED/색상 고정 (Pause)</option><option value="4">누른 키 점등 (Key Press)</option><option value="5">항상 흰색 (White Steady)</option></select></div>
+<div class="field"><label for="ledcolor">LED 색상</label><select id="ledcolor"><option value="1">빨강 (Red)</option><option value="2">주황 (Orange)</option><option value="3">노랑 (Yellow)</option><option value="4">초록 (Green)</option><option value="5">청록 (Cyan)</option><option value="6">파랑 (Blue)</option><option value="7">보라 (Purple)</option><option value="0">흰색 (White)</option></select></div>
+</div>
+<div class="row" style="margin-top:14px"><span id="ledswatch" style="display:inline-block;width:36px;height:36px;border-radius:9px;background:#f44336;border:1px solid #ffffff66"></span><span id="leddescription" class="below">편집 중인 색상 미리보기 · 장치 상태 미확인</span></div>
+<div class="row" style="margin-top:12px"><span id="standardLastLedDot" style="display:inline-block;width:22px;height:22px;border-radius:50%;border:1px solid #888;background:#29292f" aria-hidden="true"></span><p class="below" id="standardLedCurrent" aria-live="polite">기기 LED 색상 읽기 미지원 · 실제 현재 색상은 확인할 수 없습니다. 저장하면 마지막 전송 색상을 표시합니다.</p></div>
+<div class="steps"><button id="ledsave" class="primary" disabled>LED 설정만 저장</button><span id="ledstatus" class="pill">기기 연결 후 이용 가능</span></div>
+<p class="notice">LED 저장은 <code>FE B0</code> 조명 패킷과 <code>FD FE FF</code> 확정 명령만 전송합니다. 키·노브 설정과 매크로, 지연시간은 전송하거나 변경하지 않습니다. 현재 LED 값은 이 기기의 읽기 응답에 포함되지 않아 저장 후 자동 되읽기 검증은 할 수 없습니다.</p>
+</section>
+
+<section class="card hidden" id="legacy8890">
+<h2>2. 1189:8890 · 6Keys+1Knob 키·노브 설정</h2>
+<p class="notice goodnotice"><strong>CH57x-2 전송 형식 실물 적용 확인</strong> · 6Keys+1Knob 장치에서 키·노브 설정 변경이 확인되었습니다. 이 기기는 기존 설정 읽기를 지원하지 않아 편집값 JSON 백업만 가능합니다. 기기 펌웨어가 다른 경우 적용되지 않을 수 있습니다. 장치 초기화/펌웨어 명령은 전송하지 않습니다.</p>
+<div class="grid">
+<div class="field"><label for="legacyLayout">입력 구성 (직접 선택)</label><select id="legacyLayout"><option value="6" selected>6Keys + 1Knob (현재 장치)</option></select></div>
+<div class="field"><label>통신 형식</label><div class="pill">CH57x-2 · 1189:8890 (실제 설정 변경 확인)</div><input type="hidden" id="legacyDialect" value="ch57x2"></div>
+<div class="field"><label for="legacySlot">편집할 입력</label><select id="legacySlot"></select></div>
+<div class="field"><label for="legacyLayer">저장 레이어</label><select id="legacyLayer"><option value="0">레이어 1</option><option value="1">레이어 2</option><option value="2">레이어 3</option></select></div>
+</div>
+<div id="legacyVisual" class="universal-layout"><div id="legacyKeyGrid" class="universal-keys"></div><div id="legacyKnob" class="knob-panel" style="margin-top:12px"><div class="encoder-dial" style="margin:8px auto 13px;cursor:default" aria-hidden="true"></div><strong style="display:block;text-align:center">KNOB 1</strong><p class="below" style="text-align:center">반시계 · 누름 · 시계 방향 중 선택</p><div id="legacyKnobGrid" class="knob-options"></div></div></div>
+<div class="knob-panel" style="margin-top:16px" id="legacyEditor">
+  <h3 style="margin:0 0 8px;font-size:16px">3. 선택한 입력의 동작 설정</h3>
+  <p class="below" id="legacyEditingTarget" aria-live="polite">KEY 1 · 레이어 1</p>
+  <div class="field" style="margin:12px 0 20px"><label for="legacyKind"><strong>동작 종류 선택</strong></label><select id="legacyKind"><option value="keyboard">키보드 입력</option><option value="media">미디어</option><option value="mouse">마우스</option></select><small>동작을 먼저 선택하면 아래에 해당 편집기가 표시됩니다. 선택한 키·노브의 편집값은 유지됩니다.</small></div>
+  <div class="field" id="legacyKeyboardField"><label for="legacyMacro">키보드 단축키 / 매크로 (쉼표로 Step 구분, CH57x-2 최대 5 Step)</label><textarea id="legacyMacro" spellcheck="false" placeholder="예: a 또는 ctrl+c, ctrl+v">a</textarea><small>예: a, enter, ctrl+c, alt+f4. 각 Step은 기존 키 코드 목록을 사용합니다. 키 코드가 지원되지 않으면 미리보기에서 오류가 표시됩니다.</small></div>
+  <div class="field" id="legacyStepPanel">
+   <label>Step 목록 · 선택한 Step을 직접 편집 (최대 5 Step)</label>
+   <div class="steps"><button id="legacyAddStep" type="button">+ Step 추가</button><button id="legacyRemoveStep" type="button">Step 삭제</button><button id="legacyStepUp" type="button">↑</button><button id="legacyStepDown" type="button">↓</button></div>
+   <div id="legacyStepList" class="step-list" aria-label="매크로 Step 목록"></div>
+   <label>선택 Step의 조합키</label>
+   <div class="row" id="legacyModifiers"><button type="button" data-lmod="ctrl">Ctrl</button><button type="button" data-lmod="shift">Shift</button><button type="button" data-lmod="alt">Alt</button><button type="button" data-lmod="win">Win</button><button type="button" data-lmod="rctrl">RCtrl</button><button type="button" data-lmod="rshift">RShift</button><button type="button" data-lmod="ralt">RAlt</button><button type="button" data-lmod="rwin">RWin</button></div>
+   <label for="legacyKeySelect">Step 키 셀렉트박스 (일반 / 기능 / 탐색키)</label><select id="legacyKeySelect"><option value="">일반 키 선택</option></select>
+   <label for="legacyKeyInput">또는 키 이름 직접 입력</label><input id="legacyKeyInput" placeholder="a, f1, pageup, ...">
+   <label for="legacyDelay">선택 Step 지연시간 (ms) · 스핀버튼</label><input id="legacyDelay" type="number" min="0" max="6000" step="1" value="0">
+   <small><strong>주의:</strong> CH57x-2의 Step별 지연시간 전송 형식은 검증되지 않았습니다. ms 값은 편집·JSON 백업에만 기록되고, 기기에 전송하지 않습니다. 각 Step은 현재 확인된 명령대로 전송됩니다.</small>
+  </div>
+  <div class="field hidden" id="legacyMediaField"><label for="legacyMedia">미디어 동작</label><select id="legacyMedia"></select></div>
+  <div class="field hidden" id="legacyMouseField"><label for="legacyMouse">마우스 동작</label><select id="legacyMouse"><option value="left">왼쪽 클릭</option><option value="right">오른쪽 클릭</option><option value="middle">가운데 클릭</option><option value="wheelup">휠 up</option><option value="wheeldown">휠 down</option></select></div>
+  <p class="notice">설정 내용은 먼저 이 웹페이지 안에서만 변경됩니다. 아래 '8890 설정 전송'을 누르기 전에는 실제 기기에 아무것도 저장되지 않습니다. 기존 설정 읽기는 지원되지 않습니다.</p>
+</div>
+<div class="knob-panel" id="legacyLedPanel" style="margin:14px 0">
+ <h3 style="margin:0 0 8px;font-size:16px">4. LED 조명 설정 · 1189:8890 (실물 검증된 4개 효과)</h3>
+ <p class="below">검증된 <code>B0 08 00~03</code> 효과만 전송합니다. <strong>1189:8840/8842 기반 색상 코드, B0 18 시험, 개별 LED 색상 저장은 제거했습니다.</strong> 이 장치는 LED 색상·위치를 자동으로 읽을 수 없어 아래 표시는 마지막 전송 모드와 사용자가 관찰·기록한 값입니다.</p>
+ <div class="row" style="align-items:end"><div class="field" style="flex:1;min-width:240px"><label for="legacyLedMode">LED 효과</label><select id="legacyLedMode"><option value="0">끄기 — B0 08 00</option><option value="1">LED A 항상 켜기 — B0 08 01</option><option value="2">순방향 웨이브 — B0 08 02</option><option value="3">현재 LED·색상 일시정지 — B0 08 03</option></select></div><button id="legacyLedSave" type="button" class="primary">선택 LED 효과 전송</button></div>
+ <div class="led-observation" aria-label="기기 LED 색상·위치 관찰 기록">
+  <span class="observed-dot" id="legacyObservedDot" aria-hidden="true"></span>
+  <div class="observed-fields">
+   <div><label for="legacyObservedColor">관찰한 현재 색상 (표시 전용)</label><select id="legacyObservedColor"><option value="unknown">미확인</option><option value="white">흰색</option><option value="blue">파랑</option><option value="yellow">노랑</option><option value="red">빨강</option><option value="cyan">청록</option><option value="green">초록</option><option value="purple">보라</option></select></div>
+   <div><label for="legacyObservedPosition">관찰한 점등 위치 (표시 전용)</label><select id="legacyObservedPosition"><option value="unknown">미확인</option><option value="A">LED A</option><option value="B">LED B</option><option value="C">LED C</option><option value="D">LED D</option><option value="E">LED E</option><option value="F">LED F</option></select></div>
+  </div>
+ </div>
+ <p id="legacyCurrentLedStatus" class="below" aria-live="polite">현재 색상 정보 없음 · 기기에서 읽기 불가</p>
+ <p class="below">위 색상·위치 선택은 <strong>표시와 관찰 기록에만</strong> 사용됩니다. 선택한 색이나 위치를 기기에 전송하지 않습니다. 웨이브 진행 중에는 기기 색상이 계속 바뀌므로 자동 동기화할 수 없습니다.</p>
+ <p id="legacyLedStatus" class="below">LED 효과 명령은 실물에서 작동 확인. 색상·개별 LED 주소는 미확인.</p>
+</div>
+<div class="steps"><button type="button" id="legacyPreview">설정 명령 미리보기</button><button type="button" id="legacySave" class="primary" disabled>선택한 입력을 기기에 저장</button><button type="button" id="legacyDraftBackup">현재 편집값 JSON 백업</button><button type="button" id="legacyDraftRestore">편집값 JSON 불러오기</button><input type="file" id="legacyDraftFile" class="hidden" accept=".json,application/json"></div>
+<pre id="legacyPackets" style="white-space:pre-wrap;overflow-wrap:anywhere">장치를 연결하면 사용 가능합니다.</pre>
+</section>
+<section class="card">
+<div class="row"><h2 class="grow" style="margin:0">진단 로그</h2><button id="copylog" type="button">로그 복사</button><button id="clearlog" type="button">지우기</button></div>
+<pre id="log" aria-live="polite">연결 전입니다.</pre>
+<p class="below">연결이 되지 않으면 이 로그를 복사해 전달하면 통신 문제를 좁힐 수 있습니다. 민감한 내용이 아니라 USB 응답 코드와 설정 기록만 남기며 자동으로 업로드하지 않습니다.</p>
+</section>
+<p class="footer">지원 범위: 제조사 필터 없는 HID 검색, 응답 구조가 일치하는 CH57x-1 프로토콜 제품, 기기 응답에 따른 동적 키·노브 배열. 1189:8890 CH57x-2는 실물에서 설정 변경이 확인된 6Keys+1Knob 전용 편집 화면을 제공합니다. 나머지 미확인 프로토콜 제품은 저장이 차단됩니다. 미등록 장치는 전체 슬롯 검증 후 키 설정만 허용합니다. 프로토콜 근거: <a target="_blank" rel="noopener" href="https://github.com/jvspier/macropad-rebind/blob/main/docs/PROTOCOL.md">CH57x HID 프로토콜 문서</a> / <a target="_blank" rel="noopener" href="https://github.com/GialloInteractive/ch57x-mini-keyboard-configurator/blob/main/KEY_MAPPING_NOTES.md">514C:8851 실제 장치 검증 기록</a>. 이 웹페이지는 특정 제조사의 공식 프로그램이 아닌 비공식 CH57x HID 설정기입니다. 제품/펌웨어마다 호환성이 다르며 실제 설정 결과를 확인해야 합니다.</p>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const REPORT=3,CONFIG_USAGE=0xff00,CONFIG_ID=1;
+// Only USB pairs documented as Standard/CH57x-1: not all 3-key macro pads.
+const STANDARD_IDS=new Set(['1189:8830','1189:8831','1189:8832','1189:8833','1189:8840','1189:8842','1189:8850','1189:8851','514c:8830','514c:8831','514c:8832','514c:8833','514c:8840','514c:8842','514c:8851']); // 514c:8850 is dialect-dependent: diagnostic-only unless separately verified
+const deviceId=d=>d.vendorId.toString(16).padStart(4,'0')+':'+d.productId.toString(16).padStart(4,'0');
+const idLabel=d=>deviceId(d).toUpperCase();
+let SLOTS=[1,2,3,16,17,18];
+let NAMES={1:'KEY 1',2:'KEY 2',3:'KEY 3',16:'노브 반시계',17:'노브 누름',18:'노브 시계'};
+const MEDIA={'볼륨 증가':0xe9,'볼륨 감소':0xea,'음소거':0xe2,'재생 / 일시정지':0xcd,'다음 트랙':0xb5,'이전 트랙':0xb6,'정지':0xb7,'밝기 증가':0x6f,'밝기 감소':0x70,'계산기':0x192};
+const MOUSE={left:{action:1,button:1},right:{action:1,button:2},middle:{action:1,button:4},wheelup:{action:4,wheel:1},wheeldown:{action:4,wheel:-1}};
+const MODS={ctrl:1,control:1,shift:2,alt:4,option:4,win:8,windows:8,cmd:8,meta:8,rctrl:16,rshift:32,ralt:64,rwin:128};
+const KEY={};'abcdefghijklmnopqrstuvwxyz'.split('').forEach((k,i)=>KEY[k]=4+i);'123456789'.split('').forEach((k,i)=>KEY[k]=30+i);KEY['0']=39;
+Object.assign(KEY,{enter:40,return:40,esc:41,escape:41,backspace:42,tab:43,space:44,' ':44,minus:45,equal:46,'[':47,']':48,backslash:49,semicolon:51,apostrophe:52,grave:53,comma:54,period:55,slash:56,capslock:57,capslk:57,printscreen:70,scrolllock:71,pause:72,insert:73,home:74,pageup:75,delete:76,del:76,end:77,pagedown:78,right:79,left:80,down:81,up:82});
+for(let i=1;i<=12;i++)KEY['f'+i]=57+i;for(let i=13;i<=24;i++)KEY['f'+i]=104+(i-13);
+const KEY_REVERSE=new Map(Object.entries(KEY).map(([k,v])=>[v,k]));
+let restorePlan=null;
+let legacy8890=false;
+let activeView='standard', connectedFamily=null; // Display mode is independent of HID protocol authorization.
+let baseCompatibilityState='ok', baseCompatibilityMessage='';
+let inspectOnly=false,readOnlyDevice=false,unlistedDevice=false,dev=null,verified=false,readOk=false,busy=false,selected=1,layer=1,readRecords=new Map(),staged=null,waiter=null,keyCount=0,knobCount=0,readWarning="",conflictSlots=new Set();
+let lines=['CH57x Web Driver v7.7.8 준비됨. (이 문구가 보이지 않으면 이전 파일이 열려 있습니다.)'];
+const hex=n=>n.toString(16).padStart(2,'0').toUpperCase();
+const dump=data=>Array.from(data).map(hex).join(' ');
+function log(message){lines.push(new Date().toLocaleTimeString('ko-KR')+' '+message);if(lines.length>240)lines=lines.slice(-240);$('log').textContent=lines.join('\n');$('log').scrollTop=$('log').scrollHeight;}
+function status(label,kind=''){$('status').textContent=label;$('status').className='pill '+kind;}
+function compatibilityState(state,message){
+ const p=$('compatMessage'),b=$('compatBadge');
+ p.textContent=message;p.className='compat-message'+(state==='ok'?' ok':state==='warn'?' warn':'');
+ b.className='pill '+(state==='ok'?'ok':state==='warn'?'warn':'error');
+ b.textContent=state==='ok'?'호환 장치 연결됨':state==='warn'?'일부 기능 제한':'호환 장치 미연결';
+ $('connectiontip').classList.toggle('connection-error',state==='error');
+ refreshDesignHint();
+}
+function refreshDesignHint(){
+ const hint=$('viewModeHint'); if(!hint)return;
+ const view=activeView==='aa'?'CH57x-2':'CH57x-1';
+ const connected=connectedFamily==='aa'?'CH57x-2':connectedFamily==='standard'?'CH57x-1':null;
+ hint.classList.toggle('attention',Boolean(connected&&connectedFamily!==activeView));
+ hint.textContent=!connected?view+' 디자인 미리보기 · 호환 장치 연결 없음':
+  connectedFamily===activeView?view+' 디자인 · 연결된 장치와 일치':
+  view+' 디자인 미리보기 · 현재 '+connected+' 장치 연결 (이 화면의 전송 불가)';
+}
+function selectDesign(view,automatic=false){
+ if(!['standard','aa'].includes(view))return;
+ activeView=view;
+ for(const [name,id] of [['standard','viewStandard'],['aa','viewAA']]){
+  const selected=name===view;$(id).setAttribute('aria-pressed',String(selected));
+ }
+ for(const id of ['standardReadPanel','standardEditPanel'])$(id).classList.toggle('hidden',view!=='standard');
+ // 1189:8840 color UI remains deliberately disabled, even while previewing Standard.
+ $('ledpanel').classList.toggle('hidden',view!=='standard'||Boolean(dev&&deviceId(dev)==='1189:8840'));
+ $('legacy8890').classList.toggle('hidden',view!=='aa');
+ // Make a mismatched manual preview unmistakable right below the USB connection controls.
+ if(connectedFamily){
+  if(connectedFamily!==activeView){
+   const attached=connectedFamily==='aa'?'CH57x-2':'CH57x-1';
+   const chosen=activeView==='aa'?'CH57x-2':'CH57x-1';
+   compatibilityState('error','⚠ 잘못된 UI를 선택했습니다! 현재 연결된 장치는 '+attached+' 방식이지만, 선택한 화면은 '+chosen+'입니다. 화면 오른쪽 위의 '+attached+' 버튼을 눌러주세요. 이 화면에서는 설정 전송이 차단됩니다.');
+   $('compatBadge').textContent='잘못된 UI 선택';
+  }else{
+   compatibilityState(baseCompatibilityState,baseCompatibilityMessage);
+  }
+ }
+ refreshDesignHint();
+ if(!automatic)log('디자인 직접 선택: '+(view==='aa'?'CH57x-2':'CH57x-1')+' (실제 기기 프로토콜/전송 권한은 변경되지 않음)');
+ if(typeof update==='function')update();
+}
+function markCompatible(family,message,state='ok'){
+ connectedFamily=family;
+ baseCompatibilityState=state;
+ baseCompatibilityMessage=message;
+ selectDesign(family,true);
+ compatibilityState(state,message);
+}
+function markUnsupported(reason){
+ connectedFamily=null;
+ status('호환 장치 연결 실패','error');
+ compatibilityState('error','적절한 CH57x 장치를 찾지 못했습니다. CH57x-1 / CH57x-2 어느 쪽과도 호환성이 확인되지 않았습니다. '+reason);
+ $('connectiontip').textContent='호환되지 않는 USB HID 장치에서는 키·노브·LED 설정 명령을 전송하지 않습니다. 장치를 확인한 뒤 다시 연결하세요.';
+ log('호환 장치를 찾지 못함: '+reason);
+ refreshDesignHint();
+}
+function markDisconnected(reason='연결되지 않음'){
+ connectedFamily=null;
+ status(reason,'disconnected');
+ compatibilityState('error','적절한 CH57x 장치가 연결되지 않았습니다. USB 장치를 연결하면 CH57x-1 / CH57x-2 호환성을 확인합니다.');
+}
+$('viewStandard').onclick=()=>selectDesign('standard');
+$('viewAA').onclick=()=>selectDesign('aa');
+function info(s){$('connectiontip').textContent=s;log(s);}
+function activeRecord(){return readRecords.get(selected)}
+function summary(){let r=activeRecord();if(!readOk||!r){$('summary').textContent=NAMES[selected]+' · 읽어온 설정 없음';return;}
+const type=r[3];let s='';if(type===1){let steps=r[9],chords=[];for(let i=0;i<Math.min(steps,18);i++){let m=r[10+i*2],k=r[11+i*2];const parts=[];if(m&1)parts.push('Ctrl');if(m&2)parts.push('Shift');if(m&4)parts.push('Alt');if(m&8)parts.push('Win');if(m&16)parts.push('RCtrl');if(m&32)parts.push('RShift');if(m&64)parts.push('RAlt');if(m&128)parts.push('RWin');parts.push(KEY_REVERSE.get(k)||(k?'HID 0x'+hex(k):'없음'));chords.push(parts.join('+'));}s=chords.join(', ');}else if(type===2){let usage=r[10]|r[11]<<8;s=Object.keys(MEDIA).find(k=>MEDIA[k]===usage)||'미디어 0x'+usage.toString(16);}else if(type===3){const wheel=(r[14]<<24)>>24;const action=r[9],button=r[11];
+if((action===4||action===3) && wheel>0)s='마우스 wheel up';
+else if((action===4||action===3) && wheel<0)s='마우스 wheel down';
+else if(action===1 && button===1)s='마우스 왼쪽 클릭';
+else if(action===1 && button===2)s='마우스 오른쪽 클릭';
+else if(action===1 && button===4)s='마우스 가운데 클릭';
+else s='마우스 (action='+action+', button='+button+', wheel='+wheel+')';}else{s='기타 type='+type+' (원본 백업 권장)';}
+$('summary').textContent=NAMES[selected]+' · 레이어 '+layer+'의 현재 설정: '+s;
+}
+function canWriteSlot(slot){return SLOTS.includes(slot)&&readRecords.has(slot)&&!conflictSlots.has(slot);}
+function update(){if($('leddescription'))updateLedPreview();document.querySelectorAll('[data-slot]').forEach(b=>b.classList.toggle('active',Number(b.dataset.slot)===selected));$('target').textContent=NAMES[selected]+' (슬롯 '+selected+')의 새로운 동작을 편집합니다.'+(!readRecords.has(selected)?' ⚠ 읽기 응답 없음: 저장 비활성화.':conflictSlots.has(selected)?' ⚠ 중복 응답 충돌: 저장 비활성화.':'');$('read').disabled=legacy8890||!verified||busy;$('backup').disabled=!readOk||busy;$('legacySave').disabled=!legacy8890||!dev?.opened||busy; $('legacyLedSave').disabled=!legacy8890||!dev?.opened||busy; $('restorewrite').disabled=unlistedDevice||readOnlyDevice||!restorePlan||!verified||!readOk||busy||restorePlan.layer!==layer;$('connect').disabled=!!dev||busy;$('disconnect').disabled=!dev||busy;$('stage').disabled=busy;$('write').disabled=readOnlyDevice||!verified||!readOk||!staged||busy||!canWriteSlot(selected);$('ledsave').disabled=unlistedDevice||readOnlyDevice||!verified||!dev?.opened||busy;summary();}
+function resetStage(){staged=null;$('preview').textContent='설정값이 바뀌었습니다. 다시 미리보기를 생성하세요.';update();}
+function switchKind(){let k=$('kind').value;$('keyboardfield').classList.toggle('hidden',k!=='keyboard');$('mediafield').classList.toggle('hidden',k!=='media');$('mousefield').classList.toggle('hidden',k!=='mouse');resetStage();}
+Object.entries(MEDIA).forEach(([label,value])=>{let op=document.createElement('option');op.textContent=label;op.value=String(value);$('media').append(op)});
+// Keyboard key dropdown uses the same KEY mapping as the validated macro encoder.
+const KEY_GROUPS=[
+ ['영문자',Array.from('abcdefghijklmnopqrstuvwxyz').map(k=>[k,k.toUpperCase()])],
+ ['숫자',[...Array.from('1234567890').map(k=>[k,k])]],
+ ['기능키',Array.from({length:12},(_,i)=>['f'+(i+1),'F'+(i+1)])],
+ ['문장부호 / 특수문자 키',[
+ ['comma',', (Comma)'],['period','. (Period)'],['slash','/ (Slash / ?)'],['semicolon','; (Semicolon / :)'],['apostrophe',"' (Apostrophe / \" )"],['grave','` (Grave / ~)'],['minus','- (Minus / _)'],['equal','= (Equal / +)'],['[','[ (Left bracket / {)'],[']','] (Right bracket / })'],['backslash','\\ (Backslash / |)']]],
+ ['제어 / 탐색 키',[
+ ['tab','Tab'],['capslock','Caps Lock'],['enter','Enter'],['esc','Esc'],['space','Space'],['backspace','Backspace'],['delete','Delete'],['insert','Insert'],['home','Home'],['end','End'],['pageup','Page Up'],['pagedown','Page Down'],['up','↑'],['down','↓'],['left','←'],['right','→'],['printscreen','Print Screen'],['scrolllock','Scroll Lock'],['pause','Pause']]]
+];
+for(const [group,items] of KEY_GROUPS){const optgroup=document.createElement('optgroup');optgroup.label=group;for(const [value,label] of items){const option=document.createElement('option');option.value=value;option.textContent=label;optgroup.append(option);} $('stepkeyselect').append(optgroup);}
+// Step editor uses the existing, hardware-tested comma-separated macro encoder.
+let macroSteps=['ctrl+c'],stepDelays=[0],stepIndex=0,editingSteps=false;
+const stepTokens=t=>t.trim().toLowerCase().split('+').map(x=>x.trim()).filter(Boolean);
+function stepLabel(t){return t||'(키 지정 필요)'}
+function syncStepText(){stepDelays.length=macroSteps.length;editingSteps=true;$('macro').value=macroSteps.join(', ');editingSteps=false;renderStepEditor();resetStage();}
+function renderStepEditor(){const list=$('steplist');list.replaceChildren();macroSteps.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='step-row'+(stepIndex===i?' chosen':'');const num=document.createElement('span');num.textContent='STEP '+(i+1);const val=document.createElement('strong');val.textContent=stepLabel(t)+(stepDelays[i]?' · '+stepDelays[i]+' ms':'');b.append(num,val);b.onclick=()=>{stepIndex=i;renderStepEditor();};list.append(b);});const current=stepTokens(macroSteps[stepIndex]||'');document.querySelectorAll('[data-mod]').forEach(b=>{b.classList.toggle('toggle-on',current.includes(b.dataset.mod));b.setAttribute('aria-pressed',String(current.includes(b.dataset.mod)));});const activeKey=current.filter(t=>!Object.hasOwn(MODS,t)).join('+');$('stepdelay').value=String(stepDelays[stepIndex]||0);$('stepkey').value=activeKey;$('stepkeyselect').value=activeKey;$('addstep').disabled=macroSteps.length>=18;$('removestep').disabled=macroSteps.length<=1;$('upstep').disabled=stepIndex===0;$('downstep').disabled=stepIndex===macroSteps.length-1;}
+function editStep(modifier,keyValue){let parts=stepTokens(macroSteps[stepIndex]||'');let mods=parts.filter(x=>Object.hasOwn(MODS,x));let key=parts.find(x=>!Object.hasOwn(MODS,x))||'';if(modifier){mods=mods.includes(modifier)?mods.filter(x=>x!==modifier):[...mods,modifier];}if(keyValue!==undefined)key=keyValue.trim().toLowerCase().replaceAll(' ','');macroSteps[stepIndex]=[...mods,...(key?[key]:[])].join('+');syncStepText();}
+$('addstep').onclick=()=>{if(macroSteps.length>=18)return;macroSteps.splice(stepIndex+1,0,'a');stepDelays.splice(stepIndex+1,0,0);stepIndex++;syncStepText();};
+$('removestep').onclick=()=>{if(macroSteps.length<=1)return;macroSteps.splice(stepIndex,1);stepDelays.splice(stepIndex,1);stepIndex=Math.min(stepIndex,macroSteps.length-1);syncStepText();};
+$('upstep').onclick=()=>{if(stepIndex<1)return;[macroSteps[stepIndex-1],macroSteps[stepIndex]]=[macroSteps[stepIndex],macroSteps[stepIndex-1]];[stepDelays[stepIndex-1],stepDelays[stepIndex]]=[stepDelays[stepIndex],stepDelays[stepIndex-1]];stepIndex--;syncStepText();};
+$('downstep').onclick=()=>{if(stepIndex>=macroSteps.length-1)return;[macroSteps[stepIndex+1],macroSteps[stepIndex]]=[macroSteps[stepIndex],macroSteps[stepIndex+1]];[stepDelays[stepIndex+1],stepDelays[stepIndex]]=[stepDelays[stepIndex],stepDelays[stepIndex+1]];stepIndex++;syncStepText();};
+document.querySelectorAll('[data-mod]').forEach(b=>b.onclick=()=>editStep(b.dataset.mod));
+document.querySelectorAll('[data-special]').forEach(b=>b.onclick=()=>editStep(null,b.dataset.special));
+$('stepkeyselect').addEventListener('change',()=>{if($('stepkeyselect').value)editStep(null,$('stepkeyselect').value);});
+$('stepkey').addEventListener('change',()=>editStep(null,$('stepkey').value));
+$('macro').addEventListener('input',()=>{if(editingSteps)return;macroSteps=$('macro').value.split(',').map(x=>x.trim());if(!macroSteps.length)macroSteps=[''];stepDelays=macroSteps.map(()=>0);stepIndex=Math.min(stepIndex,macroSteps.length-1);renderStepEditor();resetStage();});
+$('stepdelay').addEventListener('input',()=>{const v=Number($('stepdelay').value);if(!Number.isInteger(v)||v<0||v>6000){resetStage();return;}stepDelays[stepIndex]=v;renderStepEditor();resetStage();});
+renderStepEditor();
+$('kind').onchange=switchKind;['media','mouse'].forEach(id=>$(id).addEventListener('change',resetStage));
+function loadSelectedConfig(){
+ const r=activeRecord();if(!readOk||!r)return;
+ const t=r[3];$('kind').value=t===1?'keyboard':t===2?'media':t===3?'mouse':'none';
+ if(t===1){const arr=[];for(let i=0;i<Math.min(18,r[9]);i++){
+ const m=r[10+i*2]||0,k=r[11+i*2]||0,parts=[];
+ for(const [label,bit] of [['ctrl',1],['shift',2],['alt',4],['win',8],['rctrl',16],['rshift',32],['ralt',64],['rwin',128]])if(m&bit)parts.push(label);
+ if(k)parts.push(KEY_REVERSE.get(k)||'unknown_hid_'+hex(k));
+ arr.push(parts.join('+'));
+ }macroSteps=arr.length?arr:[''];stepDelays=macroSteps.map(()=>0);stepIndex=0;
+ $('macro').value=macroSteps.join(', ');renderStepEditor();
+ }else if(t===2){const code=r[10]|r[11]<<8;if(Object.values(MEDIA).includes(code))$('media').value=String(code);
+ }else if(t===3){const action=r[9],button=r[11],wheel=(r[14]<<24)>>24;
+ const match=Object.entries(MOUSE).find(([,m])=>((m.action===action)||((action===3||action===4)&&m.wheel&&wheel))&&(m.button||0)===button&&(m.wheel||0)===wheel);if(match){$('mouse').value=match[0];}else{log('마우스 기존 설정을 선택 목록과 매칭하지 못했습니다: action='+action+', button='+button+', wheel='+wheel);}
+ }
+ $('keyboardfield').classList.toggle('hidden',t!==1);$('mediafield').classList.toggle('hidden',t!==2);$('mousefield').classList.toggle('hidden',t!==3);
+ log('선택한 '+NAMES[selected]+'의 기존 설정을 편집기에 불러왔습니다. 지연값은 읽기에서 제공되지 않아 0 ms로 표시됩니다.');
+}
+$('keygrid').addEventListener('click',selectSlot);
+$('knobgrid').addEventListener('click',e=>{const dial=e.target.closest('[data-knob]');if(!dial)return;const i=Number(dial.dataset.knob);showKnob(i);});
+$('knoboptions').addEventListener('click',selectSlot);
+$('closeknob').addEventListener('click',()=>{openKnob=-1;renderKnobPanel();});
+let openKnob=-1;
+function showKnob(i){openKnob=openKnob===i?-1:i;renderKnobPanel();}
+function renderKnobPanel(){
+ const panel=$('knobpanel');panel.classList.toggle('hidden',openKnob<0||openKnob>=knobCount);
+ $('knobgrid').querySelectorAll('[data-knob]').forEach(b=>{const current=Number(b.dataset.knob)===openKnob;b.classList.toggle('open',current);b.setAttribute('aria-expanded',String(current));});
+ if(openKnob<0||openKnob>=knobCount)return;
+ $('knobpaneltitle').textContent='KNOB '+(openKnob+1)+' · 동작 선택';
+ const container=$('knoboptions');container.replaceChildren();
+ const actions=[['↶','반시계'],['●','누름'],['↷','시계 방향']];
+ actions.forEach(([glyph,name],a)=>{
+  const slot=16+openKnob*3+a,b=document.createElement('button');b.type='button';b.className='knob-action'+(selected===slot?' active':'');b.dataset.slot=slot;
+  const icon=document.createElement('span');icon.className='action-icon';icon.textContent=glyph;
+  const title=document.createElement('span');title.textContent=name;
+  const sub=document.createElement('small');sub.textContent='슬롯 '+slot;
+  b.append(icon,title,sub);container.append(b);
+ });
+}
+function selectSlot(e){const b=e.target.closest('[data-slot]');if(!b)return;selected=Number(b.dataset.slot);loadSelectedConfig();resetStage();renderKnobPanel();}
+$('layer').onchange=()=>{restorePlan=null;$('restorepreview').textContent='레이어를 바꿨습니다. 백업 파일을 다시 선택하세요.';layer=Number($('layer').value);readOk=false;readRecords=new Map();conflictSlots=new Set();resetStage();if(verified)withBusy(async()=>await readLayer(),true);};
+$('copylog').onclick=async()=>{const content=lines.join('\n');try{await navigator.clipboard.writeText(content);log('진단 로그 복사 완료');}catch(e){try{const t=document.createElement('textarea');t.value=content;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();if(!document.execCommand('copy'))throw Error('복사 실패');t.remove();log('진단 로그 복사 완료 (호환 모드)');}catch(err){log('복사 실패: '+err.message);alert('복사할 수 없습니다. 로그 텍스트를 직접 선택해 복사하세요.')}}};
+$('clearlog').onclick=()=>{lines=['로그를 비웠습니다.'];$('log').textContent=lines[0]};
+function descriptorMatches(d){const scan=(cs)=>cs.some(c=>(c.usagePage===CONFIG_USAGE&&c.usage===CONFIG_ID&&c.outputReports?.some(r=>r.reportId===REPORT))||scan(c.children||[]));return scan(d.collections||[])}
+function describeCollections(d){function rec(c,prefix=''){let s=`${prefix}usagePage=0x${c.usagePage.toString(16)} usage=0x${c.usage.toString(16)} reports=${(c.outputReports||[]).map(x=>x.reportId).join(',')||'-'}`;log('HID '+s);(c.children||[]).forEach(x=>rec(x,prefix+'  '));} (d.collections||[]).forEach(c=>rec(c))}
+async function send(payload){if(readOnlyDevice && ![0xfb,0xfa].includes(payload[0]))throw Error('읽기 전용 장치에는 변경 명령을 전송할 수 없습니다.');if(!dev?.opened)throw Error('장치 연결이 끊겼습니다.');const out=new Uint8Array(64);out.set(payload);await dev.sendReport(REPORT,out);log('TX #3  '+dump(payload));}
+function onReport(event){if(event.device!==dev||event.reportId!==REPORT)return;const data=new Uint8Array(event.data.buffer,event.data.byteOffset,event.data.byteLength).slice();log('RX #3  '+dump(data.slice(0,Math.min(data.length,16))));if(waiter)waiter(data);}
+function waitFor(predicate,timeout=2400){let accept;let cleanup;let promise=new Promise((resolve,reject)=>{let t=setTimeout(()=>{cleanup();reject(Error('장치 응답 시간 초과 ('+timeout+'ms)'))},timeout);cleanup=()=>{clearTimeout(t);if(waiter===accept)waiter=null;};accept=(arr)=>{if(!predicate(arr))return;cleanup();resolve(arr);};waiter=accept;});return {promise,cleanup};}
+function configureLayout(keys,knobs){
+  if(!Number.isInteger(keys)||!Number.isInteger(knobs)||keys<1||keys>16||knobs<0||knobs>4|| (keys===16&&knobs>0)) throw Error('자동 배치 가능한 범위를 벗어난 구성: '+keys+'키 / '+knobs+'노브');
+  // CH57x Standard maps keys 1..15 and rotary events 16..27 (3 events per knob).
+  const slots=Array.from({length:keys},(_,i)=>i+1),labels={};
+  slots.forEach(i=>labels[i]='KEY '+i);
+  for(let n=0;n<knobs;n++)for(let act=0;act<3;act++){const slot=16+3*n+act;slots.push(slot);labels[slot]='노브 '+(n+1)+' '+['반시계','누름','시계'][act];}
+  SLOTS=slots;NAMES=labels;selected=1;
+  $('keygrid').replaceChildren();$('knobgrid').replaceChildren();openKnob=-1;$('knobpanel').classList.add('hidden');
+  const columns= keys>=12?4:keys>=9?3:keys===6?3:Math.min(4,keys);
+  $('keygrid').style.gridTemplateColumns='repeat('+columns+', minmax(0, 1fr))';
+  for(let i=1;i<=keys;i++){const b=document.createElement('button');b.className='key keycap'+(i===selected?' active':'');b.dataset.slot=i;b.append(document.createTextNode('KEY '+i));const sub=document.createElement('small');sub.textContent='슬롯 '+i;b.append(sub);$('keygrid').append(b);}
+  for(let n=0;n<knobs;n++){
+    const wrap=document.createElement('div');wrap.className='encoder-wrap';
+    const dial=document.createElement('button');dial.type='button';dial.className='encoder-dial';dial.dataset.knob=n;dial.setAttribute('aria-label','노브 '+(n+1)+' 동작 펼치기');dial.setAttribute('aria-expanded','false');
+    const name=document.createElement('span');name.className='encoder-title';name.textContent='KNOB '+(n+1);
+    const hint=document.createElement('span');hint.className='encoder-hint';hint.textContent='클릭하여 세 동작 보기';
+    wrap.append(dial,name,hint);$('knobgrid').append(wrap);
+  }
+  $('knobgrid').style.display=knobs?'grid':'none';renderKnobPanel();
+  log('동적 레이아웃: '+keys+' keys / '+knobs+' knobs / 슬롯 '+slots.join(','));
+}
+async function identify(){let w=waitFor(a=>a[0]===0xfb,2600);try{await send([0xfb,0xfb,0xfb]);let a=await w.promise;let k=a[1],n=a[2];configureLayout(k,n);keyCount=k;knobCount=n;verified=true;log('기기 식별 성공: '+k+' keys + '+n+' knob');}finally{w.cleanup();}}
+async function collectLayer(request){
+  // End promptly after all expected slots arrive; allow a brief quiet window
+  // for duplicate/conflicting frames rather than waiting the full timeout.
+  const seen=new Map(),conflicts=new Set();let cleanup=()=>{},accept;
+  let p=new Promise((resolve)=>{
+    let maxTimer=null,settleTimer=null,done=false;
+    const finish=()=>{if(done)return;done=true;cleanup();resolve({seen,conflicts});};
+    cleanup=()=>{clearTimeout(maxTimer);clearTimeout(settleTimer);if(waiter===accept)waiter=null;};
+    maxTimer=setTimeout(finish,2400);
+    accept=(a)=>{
+      if(a[0]!==0xfa||a[2]!==layer||a[1]<1||a[1]>31||![1,2,3,5,8].includes(a[3]))return;
+      const slot=a[1];
+      if(seen.has(slot)&&dump(seen.get(slot).slice(0,16))!==dump(a.slice(0,16))){conflicts.add(slot);log('경고: 슬롯 '+slot+'의 응답이 서로 다름. 해당 슬롯 쓰기 금지.');}
+      else if(!seen.has(slot))seen.set(slot,Array.from(a.slice(0,50)));
+      if(SLOTS.every(s=>seen.has(s))){
+        clearTimeout(settleTimer);
+        settleTimer=setTimeout(finish,220);
+      }
+    };
+    waiter=accept;
+  });
+  try{await send(request);return await p;}finally{cleanup();}
+}
+async function readLayer(){
+  if(!verified)throw Error('먼저 장치를 연결하세요.');
+  // Preserve last successful read while a new read is pending.
+  staged=null;update();
+  let {seen:rec,conflicts}=await collectLayer([0xfa,keyCount,knobCount,layer]);
+  log('v7.7.8 읽기 결과: '+rec.size+'개의 서로 다른 슬롯 수신. 슬롯='+Array.from(rec.keys()).join(','));
+  if(!Array.from({length:keyCount},(_,i)=>i+1).every(x=>rec.has(x))){
+    log('물리 키 응답 일부 누락. 기존 화면의 정상 읽기 데이터를 유지합니다.');
+    if(!readOk)throw Error('일부 키의 응답이 누락되었습니다. USB 재연결 후 다시 읽으세요.');
+    return;
+  }
+  readRecords=rec;conflictSlots=conflicts;readOk=true;
+  readWarning=SLOTS.filter(i=>!rec.has(i)||conflicts.has(i)).map(i=>'슬롯 '+i+(!rec.has(i)?' 응답 누락':' 응답 충돌')+' / 해당 슬롯 쓰기 차단').join('; ');
+  status(readWarning?'부분 읽기 성공':'읽기 성공',readWarning?'warn':'ok');
+  info('v7.7.8: 물리 키 '+keyCount+'개 설정 읽기 성공. 전체 '+rec.size+'개 슬롯 수신. '+readWarning+' 기존 Macropad Rebind에서 슬롯 18이 초기화되었다면 정상 읽기 후 저장 버튼이 활성화됩니다. 저장 전에 JSON 백업을 하세요.');update();loadSelectedConfig();
+}
+async function withBusy(action,alreadyConnected=false){
+ if(busy)return;busy=true;update();
+ try{await action();}
+ catch(e){
+  log('오류: '+e.message);
+  if(!alreadyConnected){
+   // An unsuccessful identification must never leave a green/amber 'connected' state.
+   if(dev){try{dev.removeEventListener('inputreport',onReport);if(dev.opened)await dev.close()}catch{}dev=null;}
+   verified=false;readOk=false;legacy8890=false;readOnlyDevice=true;
+   markUnsupported('USB 식별/설정 읽기 실패: '+e.message);
+  }else{
+   status('작업 오류 / 로그 확인','warn');$('connectiontip').textContent=e.message;
+  }
+ }finally{busy=false;update();}
+}
+async function connect(){
+  if(!window.isSecureContext)throw Error('보안 연결이 아닙니다. http://localhost 또는 HTTPS에서 접속하세요.');
+  if(!navigator.hid)throw Error('WebHID가 제공되지 않습니다. 데스크톱 Chrome 또는 Edge를 사용하세요.');
+  // Always show the chooser so the user can switch to a DIFFERENT physical device.
+  // Unfiltered chooser permits alternative VID/PID and vendor-defined interfaces.
+  const chosen=await navigator.hid.requestDevice({filters:[]});
+  if(!chosen.length){log('장치 선택 취소');return;}
+  const picked=chosen[0];
+  let candidate=chosen.find(descriptorMatches);
+  if(!candidate){
+    // For multi-interface devices, the user might select Consumer Control (0x0c).
+    // Reuse a configuration interface that the browser has already permitted.
+    const granted=await navigator.hid.getDevices();
+    const siblings=granted.filter(d=>d.vendorId===picked.vendorId&&d.productId===picked.productId&&descriptorMatches(d));
+    if(siblings.length===1){candidate=siblings[0];log('동일 VID/PID의 설정용 HID로 전환: '+idLabel(candidate));}
+    else if(siblings.length>1){log('동일한 VID/PID의 설정 인터페이스가 여러 개여서 자동 선택하지 않습니다. 설정용 항목을 직접 선택하세요.');}
+  }
+  dev=candidate||picked;
+  const id=deviceId(dev),known=STANDARD_IDS.has(id),descriptor=descriptorMatches(dev);
+  inspectOnly=false;unlistedDevice=!known;readOnlyDevice=!known;
+  describeCollections(dev);
+  $('device').textContent='USB HID · '+idLabel(dev)+' · '+(dev.productName||'이름 없음')+' · 설정용 Report 3: '+(descriptor?'발견':'미발견');
+  log('선택 장치='+idLabel(dev)+' / 등록된 표준 ID='+(known?'예':'아니요')+' / 설정 HID='+(descriptor?'예':'아니요'));
+  if(!descriptor){
+    markUnsupported('FF00:0001 / Report 3 설정 인터페이스가 없습니다. 같은 기기의 설정용 HID 항목을 선택해 보세요.');
+    return;
+  }
+  await dev.open();
+  dev.addEventListener('inputreport',onReport);
+  if(id==='1189:8890'){
+    reset8890LedObservation();
+    legacy8890=true;readOnlyDevice=true;unlistedDevice=true;
+    $('legacyLayout').value='6';$('legacyLayout').dispatchEvent(new Event('change'));
+    markCompatible('aa','1189:8890 · CH57x-2 설정용 HID 연결 확인. 6Keys+1Knob 전용 화면을 자동 선택했습니다. 기존 설정 읽기는 검증되지 않았습니다.');
+    status('1189:8890 · CH57x-2 연결됨','ok');
+    info('1189:8890 연결. 검증된 CH57x-2 명령으로 편집할 수 있습니다. 기존 기기 설정 읽기는 미지원이며 편집값 백업은 가능합니다.');
+    return;
+  }
+  legacy8890=false;lastStandardLed=null;refreshStandardLedLastSent();
+  status(readOnlyDevice?'미등록 기기 확인 중 (쓰기 금지)':'장치 식별 중',readOnlyDevice?'warn':'');
+  await identify();
+  await readLayer();
+  markCompatible('standard',readWarning?
+   'CH57x-1 형식으로 '+keyCount+'Keys+'+knobCount+'Knobs를 인식했습니다. 일부 슬롯 응답이 불완전해 해당 슬롯의 저장은 차단됩니다.':
+   'CH57x-1 형식으로 '+keyCount+'Keys+'+knobCount+'Knobs의 설정을 읽었습니다. CH57x-1 화면을 자동 선택했습니다.',readWarning?'warn':'ok');
+  if(unlistedDevice){
+    const complete=SLOTS.every(i=>readRecords.has(i)&&!conflictSlots.has(i));
+    const valid=complete && readRecords.size===SLOTS.length && Array.from(readRecords,([slot,r])=>r[0]===0xfa&&r[1]===slot&&r[2]===layer&&[1,2,3,5,8].includes(r[3])).every(Boolean);
+    if(valid){
+      readOnlyDevice=false;
+      status('CH57x-1 형식 전체 설정 확인 · 편집 가능','ok');
+      info('미등록 USB ID '+idLabel(dev)+' / '+keyCount+'키 '+knobCount+'노브의 전체 설정을 읽었습니다. 최초 저장 전에 JSON 백업을 권장합니다. LED 및 전체 복원은 검증된 모델에만 허용합니다.');
+      log('미등록 제품 CH57x-1 형식 확인: '+SLOTS.length+' 슬롯. 키 기록 활성화.');
+    }else{
+      markUnsupported('미등록 USB 장치의 CH57x-1 전체 슬롯 검증에 실패했습니다. 설정 쓰기는 차단합니다.');
+      info('일부 키/노브 슬롯의 응답이 없거나 중복되어 저장을 차단했습니다.');
+    }
+    update();
+  }
+}
+
+function set8890Panels(active){ selectDesign(active?'aa':'standard',true); } // UI only; never changes active HID family.
+// CH57x-2: verified on the user's 6Keys+1Knob device; separate from Standard protocol.
+// Protocol facts: https://github.com/jvspier/macropad-rebind/blob/main/docs/PROTOCOL.md
+function legacyLayoutOptions(){
+ const s=$('legacySlot');s.replaceChildren();
+ for(let i=1;i<=6;i++)s.add(new Option('KEY '+i,String(i)));
+ for(let j=0;j<3;j++)s.add(new Option(['노브 반시계','노브 누름','노브 시계'][j],String(13+j)));
+ const keys=$('legacyKeyGrid'),knob=$('legacyKnobGrid');keys.replaceChildren();knob.replaceChildren();
+ const make=(container,slot,label,cl)=>{let b=document.createElement('button');b.type='button';b.className=cl;b.textContent=label;b.dataset.legacySlot=String(slot);b.onclick=()=>{s.value=String(slot);legacyVisualUpdate();};container.append(b);};
+ for(let i=1;i<=6;i++)make(keys,i,'KEY '+i,'key keycap');
+ ['반시계 ↶','노브 누름','시계 ↷'].forEach((t,i)=>make(knob,13+i,t,'knob-action')); 
+ legacyVisualUpdate();
+}
+// CH57x-2 interactive step editor. Delays are draft metadata only.
+let lSteps=['a'],lDelays=[0],lIndex=0;
+function lParse(reset=false){lSteps=$('legacyMacro').value.split(',').map(s=>s.trim());if(!lSteps.length)lSteps=[''];if(lSteps.length>5)lSteps=lSteps.slice(0,5);if(reset)lDelays=lSteps.map(()=>0);else lDelays=lSteps.map((_,i)=>Number.isInteger(lDelays[i])?lDelays[i]:0);lIndex=Math.min(lIndex,lSteps.length-1);lRender();}
+function lSync(){ $('legacyMacro').value=lSteps.join(', ');lRender();legacyStaged=null;legacySaveDraft();}
+function lRender(){const root=$('legacyStepList');if(!root)return;root.replaceChildren();lSteps.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.className='step-row'+(i===lIndex?' chosen':'');b.textContent='STEP '+(i+1)+' · '+(s||'키 지정 필요')+(lDelays[i]?' · '+lDelays[i]+' ms (백업 전용)':'');b.onclick=()=>{lIndex=i;lRender();};root.append(b);});const parts=(lSteps[lIndex]||'').toLowerCase().split('+').map(x=>x.trim());document.querySelectorAll('[data-lmod]').forEach(b=>b.classList.toggle('toggle-on',parts.includes(b.dataset.lmod)));let k=parts.find(x=>x&&!Object.hasOwn(MODS,x))||'';$('legacyKeySelect').value=k;$('legacyKeyInput').value=k;$('legacyDelay').value=String(lDelays[lIndex]||0);$('legacyAddStep').disabled=lSteps.length>=5;$('legacyRemoveStep').disabled=lSteps.length<=1;$('legacyStepUp').disabled=lIndex===0;$('legacyStepDown').disabled=lIndex>=lSteps.length-1;}
+function lEdit(mod,key){let p=(lSteps[lIndex]||'').toLowerCase().split('+').map(x=>x.trim()).filter(Boolean);let mods=p.filter(x=>Object.hasOwn(MODS,x));let k=p.find(x=>!Object.hasOwn(MODS,x))||'';if(mod)mods=mods.includes(mod)?mods.filter(x=>x!==mod):[...mods,mod];if(key!==undefined)k=key.toLowerCase().trim();lSteps[lIndex]=[...mods,...(k?[k]:[])].join('+');lSync();}
+for(const [label,items] of KEY_GROUPS){const og=document.createElement('optgroup');og.label=label;for(const [v,n] of items)og.append(new Option(n,v));$('legacyKeySelect').append(og);}
+document.querySelectorAll('[data-lmod]').forEach(b=>b.onclick=()=>lEdit(b.dataset.lmod));
+$('legacyKeySelect').onchange=()=>lEdit(null,$('legacyKeySelect').value);
+$('legacyKeyInput').onchange=()=>lEdit(null,$('legacyKeyInput').value);
+$('legacyAddStep').onclick=()=>{if(lSteps.length>=5)return;lSteps.splice(lIndex+1,0,'a');lDelays.splice(lIndex+1,0,0);lIndex++;lSync();};
+$('legacyRemoveStep').onclick=()=>{if(lSteps.length<=1)return;lSteps.splice(lIndex,1);lDelays.splice(lIndex,1);lIndex=Math.min(lIndex,lSteps.length-1);lSync();};
+$('legacyStepUp').onclick=()=>{if(lIndex===0)return;[lSteps[lIndex],lSteps[lIndex-1]]=[lSteps[lIndex-1],lSteps[lIndex]];[lDelays[lIndex],lDelays[lIndex-1]]=[lDelays[lIndex-1],lDelays[lIndex]];lIndex--;lSync();};
+$('legacyStepDown').onclick=()=>{if(lIndex>=lSteps.length-1)return;[lSteps[lIndex],lSteps[lIndex+1]]=[lSteps[lIndex+1],lSteps[lIndex]];[lDelays[lIndex],lDelays[lIndex+1]]=[lDelays[lIndex+1],lDelays[lIndex]];lIndex++;lSync();};
+$('legacyDelay').onchange=()=>{const v=Number($('legacyDelay').value);if(!Number.isInteger(v)||v<0||v>6000){alert('0~6000ms 정수를 입력하세요.');return;}lDelays[lIndex]=v;lSync();};
+
+// 1189:8890: colour/position cannot be queried. Only user observations are shown.
+// The 8840/8842 nibble-based colour commands are NOT compatible with the tested 8890 firmware.
+const LED_OBSERVED_COLORS={white:['#f5f5f5','흰색'],blue:['#3b82f6','파랑'],yellow:['#fde047','노랑'],red:['#ef4444','빨강'],cyan:['#22d3ee','청록'],green:['#22c55e','초록'],purple:['#a855f7','보라']};
+let last8890Mode=null;
+function reset8890LedObservation(){
+ last8890Mode=null;
+ $('legacyObservedColor').value='unknown';$('legacyObservedPosition').value='unknown';
+ $('legacyLedStatus').textContent='LED 효과 명령 준비됨 · 현재 장치 상태 읽기 미지원';
+ refresh8890LedObservation();
+}
+function refresh8890LedObservation(){
+ const key=$('legacyObservedColor').value,pos=$('legacyObservedPosition').value;
+ const observed=LED_OBSERVED_COLORS[key],off=last8890Mode===0;
+ const c=off?'#29292f':observed?observed[0]:'#29292f';
+ $('legacyObservedDot').style.background=c;
+ $('legacyObservedDot').style.boxShadow=!off&&observed?'0 0 15px '+c+'66':'none';
+ const modeName=last8890Mode===null?'전송 모드 미확인':(ledExpLabel[last8890Mode]||'모드 '+last8890Mode);
+ const position=last8890Mode===1?'LED A (효과 특성)':pos==='unknown'?'위치 미확인':'관찰 위치 '+pos;
+ const colour=off?'꺼짐':observed?observed[1]+' (수동 관찰)':'색상 미확인';
+ $('legacyCurrentLedStatus').textContent='마지막 전송 효과: '+modeName+' · 표시 색상: '+colour+' · '+position+' · 실시간 센서/읽기 데이터가 아닙니다.';
+}
+function register8890LedCommand(mode,origin){
+ last8890Mode=mode;
+ $('legacyLedMode').value=String(mode);
+ if(mode===2)$('legacyObservedColor').value='unknown'; // wave colour changes without HID readback
+ if(mode===1)$('legacyObservedPosition').value='A';
+ else if(mode===2)$('legacyObservedPosition').value='unknown'; // moving position is unknown
+ // A pause after a running wave doesn't reveal the exact frozen position or colour.
+ // User can enter observed position/colour to update visual indicator.
+ refresh8890LedObservation();
+ log('8890 LED 효과 상태 기록: '+(ledExpLabel[mode]||mode)+' / '+origin+' (색상 자동 읽기 불가)');
+}
+for(const id of ['legacyObservedColor','legacyObservedPosition'])$(id).addEventListener('change',()=>{
+ refresh8890LedObservation();
+ log('8890 LED 관찰 기록: 색상='+$('legacyObservedColor').selectedOptions[0].text+' / 위치='+$('legacyObservedPosition').selectedOptions[0].text+' (장치 전송 없음)');
+});
+$('legacyLedSave').onclick=()=>withBusy(async()=>{
+ if(!legacy8890||!dev?.opened)throw Error('1189:8890 연결 필요');
+ const mode=Number($('legacyLedMode').value);
+ if(!Number.isInteger(mode)||mode<0||mode>3)throw Error('확인된 LED 효과(0~3)만 전송할 수 있습니다.');
+ if(!confirm('검증된 LED 효과 [B0 08 '+hex(mode)+']을 전송합니다. 색상/위치 지정은 포함되지 않습니다. 진행할까요?'))return;
+ await legacySend([0xb0,0x08,mode]);register8890LedCommand(mode,'수동');
+ $('legacyLedStatus').textContent='B0 08 '+hex(mode)+' 효과 전송 완료 · 실제 색상은 장치에서 관찰 후 아래에 기록하세요.';
+},true);
+reset8890LedObservation();
+
+const ledExpLabel={0:'끄기',1:'A 항상 켜기',2:'순방향 웨이브',3:'현 위치/색상 고정'};const legacyDrafts=new Map();
+let legacyDraftKey=null;
+function legacyDraftId(){return $('legacyLayer').value+':'+$('legacySlot').value;}
+function legacySaveDraft(){if(!legacyDraftKey)return;legacyDrafts.set(legacyDraftKey,{delays:[...lDelays],kind:$('legacyKind').value,macro:$('legacyMacro').value,media:$('legacyMedia').value,mouse:$('legacyMouse').value});}
+function legacyDraftLoad(){
+ const id=legacyDraftId(),d=legacyDrafts.get(id)||{kind:'keyboard',macro:'a',media:String(0xe9),mouse:'left'};
+ $('legacyKind').value=d.kind;$('legacyMacro').value=d.macro;lDelays=Array.isArray(d.delays)?d.delays.slice(0,5):[];lParse();$('legacyMedia').value=d.media;$('legacyMouse').value=d.mouse;
+ legacyDraftKey=id;legacyEditorUpdate();
+}
+function legacyEditorUpdate(){
+ const kind=$('legacyKind').value;
+ $('legacyKeyboardField').classList.toggle('hidden',kind!=='keyboard');$('legacyStepPanel').classList.toggle('hidden',kind!=='keyboard');
+ $('legacyMediaField').classList.toggle('hidden',kind!=='media');
+ $('legacyMouseField').classList.toggle('hidden',kind!=='mouse');
+ const slot=Number($('legacySlot').value),name=slot<=6?'KEY '+slot:['노브 반시계','노브 누름','노브 시계'][slot-13];
+ $('legacyEditingTarget').textContent=name+' · 레이어 '+(Number($('legacyLayer').value)+1);
+ legacyStaged=null;
+ $('legacyPackets').textContent='동작이 수정되었습니다. 패킷 미리보기를 눌러 내용을 확인하세요.';
+}
+function legacyVisualUpdate(){
+ legacySaveDraft();
+ document.querySelectorAll('[data-legacy-slot]').forEach(b=>b.classList.toggle('active',b.dataset.legacySlot===$('legacySlot').value));
+ legacyDraftLoad();
+}
+for(const [text,code] of Object.entries(MEDIA))$('legacyMedia').add(new Option(text,String(code)));
+$('legacyLayer').addEventListener('change',legacyVisualUpdate);
+$('legacyKind').addEventListener('change',()=>{legacyEditorUpdate();legacySaveDraft();});
+for(const id of ['legacyMacro','legacyMedia','legacyMouse'])$(id).addEventListener(id==='legacyMacro'?'input':'change',()=>{if(id==='legacyMacro')lParse(true);legacyStaged=null;legacySaveDraft();$('legacyPackets').textContent='동작이 수정되었습니다. 패킷 미리보기를 눌러 내용을 확인하세요.';});
+$('legacySlot').addEventListener('change',legacyVisualUpdate);
+$('legacyDialect').addEventListener('change',()=>{legacyStaged=null;$('legacyPackets').textContent='전송 형식이 변경되었습니다. 미리보기를 다시 확인하세요.';});
+$('legacyLayout').addEventListener('change',legacyLayoutOptions);
+let legacyStaged=null;legacyLayoutOptions();
+function legacyPackets(){
+ if(!legacy8890||!dev?.opened)throw Error('1189:8890 설정용 HID에 연결하세요.');
+ const slot=Number($('legacySlot').value),index=Number($('legacyLayer').value),kind=$('legacyKind').value,dialect=$('legacyDialect').value;
+ if(!([...Array.from({length:6},(_,i)=>i+1),13,14,15].includes(slot)))throw Error('6Keys+1Knob 슬롯 범위 오류');
+ if(![0,1,2].includes(index))throw Error('레이어 범위 오류');
+ let messages=[];
+ if(dialect==='ch57x2'){
+   const lay=index+1,kindByte=({keyboard:1,media:2,mouse:3})[kind],code=(lay<<4)|kindByte;
+   messages=[[0xfe,lay,1,1,0,0,0,0]];
+   if(kind==='keyboard'){
+     const keys=parseMacro($('legacyMacro').value);
+     if(keys.length>5)throw Error('CH57x-2는 최대 5 Step입니다.');
+     // Ref: k8890.rs and hardware-corroborated soyunomas/macroknob.
+     // An empty press MUST be sent first; header count=1, index=0.
+     messages.push([slot,code,1,0,0,0,0,0]);
+     keys.forEach(([mod,key])=>messages.push([slot,code,1,1,mod,key,0,0]));
+   }else if(kind==='media'){
+     const k=Number($('legacyMedia').value);
+     messages.push([slot,code,k&255,(k>>8)&255,0,0,0,0]);
+   }else if(kind==='mouse'){
+     const m=MOUSE[$('legacyMouse').value];if(!m)throw Error('마우스 동작 오류');
+     messages.push([slot,code,m.button||0,0,0,(m.wheel||0)&255,0,0]);
+   }else throw Error('지원하지 않는 동작');
+   messages.push([0xaa,0xaa,0,0,0,0,0,0]);
+ }else if(dialect==='vendor'){
+   // Decompiled vendor report: [Report ID 03, FE, slot, zero-based layer, type,
+   // delay_lo, delay_hi, 0,0,0, count, mod, key...] ; WebHID omits Report ID.
+   const record=new Uint8Array(64);record[0]=0xfe;record[1]=slot;record[2]=index;
+   if(kind==='keyboard'){
+     const keys=parseMacro($('legacyMacro').value);if(keys.length>18)throw Error('최대 18 Step');
+     record[3]=1;record[9]=keys.length;
+     keys.forEach(([mod,key],i)=>{record[10+i*2]=mod;record[11+i*2]=key;});
+   }else if(kind==='media'){
+     const k=Number($('legacyMedia').value);record[3]=2;record[10]=k&255;record[11]=(k>>8)&255;
+   }else if(kind==='mouse'){
+     const m=MOUSE[$('legacyMouse').value];if(!m)throw Error('마우스 동작 오류');
+     record[3]=3;record[9]=m.wheel?3:1;record[11]=m.button||0;record[14]=(m.wheel||0)&255;
+   }
+   messages=[Array.from(record),[0xaa,0xaa],[0xfd,0xfe,0xff],[0xaa,0xaa]];
+ }else throw Error('알 수 없는 프로토콜');
+ return messages;
+}
+async function legacySend(payload){
+ if(!legacy8890||deviceId(dev)!=='1189:8890'||!dev?.opened)throw Error('1189:8890 설정용 HID 연결이 필요합니다.');
+ const bytes=new Uint8Array(64);bytes.set(payload);
+ await dev.sendReport(REPORT,bytes);
+ log('8890 TX #3 '+dump(payload.slice(0,Math.min(payload.length,20))));
+}
+$('legacyDraftBackup').onclick=()=>{
+ legacySaveDraft();
+ const data={format:'ch57x2-editor-drafts',version:2,device:'1189:8890',layout:'6keys-1knob',entries:Array.from(legacyDrafts,([id,d])=>({id,...d}))};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='CH57x-8890-editor-backup.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ log('1189:8890 편집값만 JSON으로 백업했습니다. 장치에 원래 저장되어 있던 설정의 백업이 아닙니다.');
+};
+$('legacyDraftRestore').onclick=()=>$('legacyDraftFile').click();
+$('legacyDraftFile').onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+ const data=JSON.parse(await file.text());
+ if(data.format!=='ch57x2-editor-drafts'||data.device!=='1189:8890'||!Array.isArray(data.entries)||data.entries.length>27)throw Error('8890 편집 백업 파일 형식이 아닙니다.');
+ const restored=new Map();
+ for(const d of data.entries){
+  if(!/^[012]:(?:[1-6]|1[345])$/.test(d.id)||!['keyboard','media','mouse'].includes(d.kind)||typeof d.macro!=='string'||d.macro.length>500||typeof d.media!=='string'||typeof d.mouse!=='string')throw Error('백업 값 검증 실패');
+  restored.set(d.id,{kind:d.kind,macro:d.macro,media:d.media,mouse:d.mouse});
+ }
+ legacyDrafts.clear();for(const [id,d] of restored)legacyDrafts.set(id,d);
+ legacyDraftKey=null;legacyDraftLoad();log('1189:8890 편집값 JSON 불러오기 완료. 장치에는 아무 명령도 전송하지 않았습니다.');
+ }catch(err){log('편집값 불러오기 오류: '+err.message)}finally{e.target.value=''}
+};
+$('legacyPreview').onclick=()=>{try{legacyStaged=legacyPackets();$('legacyPackets').textContent='형식: '+'CH57x-2 / 1189:8890'+'\n'+legacyStaged.map(x=>dump(x.slice(0,Math.min(x.length,30)))).join('\n')+'\n\n기존 설정 읽기는 지원하지 않습니다. 웹드라이버에서 작성한 편집값만 JSON 백업할 수 있습니다.';log('1189:8890 명령 미리보기 생성');}catch(e){legacyStaged=null;$('legacyPackets').textContent='오류: '+e.message;}};
+$('legacySave').onclick=()=>withBusy(async()=>{
+ const m=legacyPackets();
+ if(!confirm('1189:8890 CH57x-2 기록입니다.\n기존 장치 설정은 읽을 수 없으며 선택한 슬롯이 덮어써집니다. 계속하시겠습니까?'))return;
+ for(const p of m){await legacySend(p);await new Promise(resolve=>setTimeout(resolve,130));}
+ $('legacyPackets').textContent='설정 패킷 전송 완료. 실제 키·노브 동작과 USB 재연결 후 유지 여부를 확인하세요. 장치 재읽기 검증은 미지원입니다.';
+ log('1189:8890 CH57x-2 패킷 전송 완료 (기기 재읽기 미지원, 실제 동작 확인 필요)');
+},true);
+
+$('connect').onclick=()=>withBusy(connect);
+async function disconnect(){if(waiter)waiter=null;restorePlan=null;if(dev){try{dev.removeEventListener('inputreport',onReport);if(dev.opened)await dev.close()}catch(e){log(e.message)}}dev=null;legacy8890=false;lastStandardLed=null;reset8890LedObservation();refreshStandardLedLastSent();inspectOnly=false;readOnlyDevice=false;unlistedDevice=false;verified=false;readOk=false;staged=null;readRecords.clear();conflictSlots.clear();markDisconnected();log('연결 해제 완료');update();}
+$('disconnect').onclick=()=>withBusy(disconnect,true);
+if(navigator.hid)navigator.hid.addEventListener('disconnect',e=>{if(e.device===dev){waiter=null;restorePlan=null;dev=null;legacy8890=false;lastStandardLed=null;reset8890LedObservation();refreshStandardLedLastSent();inspectOnly=false;readOnlyDevice=false;unlistedDevice=false;verified=false;readOk=false;staged=null;readRecords.clear();conflictSlots.clear();markDisconnected('USB 분리됨');log('USB 분리됨');update()}});
+$('read').onclick=()=>withBusy(readLayer,true);
+function parseMacro(s){const chunks=s.split(',').map(x=>x.trim().toLowerCase());if(!chunks.length||chunks.some(x=>!x))throw Error('키 조합이 비었습니다.');if(chunks.length>18)throw Error('최대 18개의 순차 입력만 지원합니다.');if(chunks.some(x=>/(^|\+)fn($|\+)/i.test(x)))throw Error('Fn은 표준 HID 키 코드가 없으며 이 장치에서 지원이 검증되지 않았습니다.');return chunks.map(s=>{let parts=s.split('+').map(x=>x.trim());if(parts.some(x=>!x))throw Error('키 조합 형식 오류: '+s);let mods=0,code=null;for(const part of parts){if(Object.hasOwn(MODS,part)){mods|=MODS[part];}else if(Object.hasOwn(KEY,part)){if(code!==null)throw Error('한 단계에서 일반 키는 하나만 지정하세요: '+s);code=KEY[part];}else{throw Error('지원되지 않는 키: '+part);}}if(code===null)throw Error('Ctrl 등 조합키만 있는 입력은 지원하지 않습니다: '+s);return [mods,code]});}
+function buildRecord(){let r=new Uint8Array(50);r[0]=0xfe;r[1]=selected;r[2]=layer;const kind=$('kind').value;if(kind==='keyboard'){let steps=parseMacro($('macro').value);if(stepDelays.length!==steps.length)throw Error('Step 배열이 일치하지 않습니다.');if(stepDelays.some(v=>!Number.isInteger(v)||v<0||v>6000))throw Error('Delay는 0~6000ms 정수여야 합니다.');if(new Set(stepDelays).size>1)throw Error('이 기기는 Step별 서로 다른 Delay를 지원하지 않습니다. 모든 Step의 Delay를 동일하게 입력하세요.');r[3]=1;r[9]=steps.length;steps.forEach(([m,k],i)=>{r[10+i*2]=m;r[11+i*2]=k;});}else if(kind==='media'){let v=Number($('media').value);if(!Object.values(MEDIA).includes(v))throw Error('미디어 코드가 유효하지 않습니다.');r[3]=2;r[9]=0;r[10]=v&255;r[11]=(v>>8)&255;}else if(kind==='mouse'){let value=MOUSE[$('mouse').value];if(!value)throw Error('마우스 선택 오류');r[3]=3;r[9]=value.action;r[11]=value.button||0;r[14]=(value.wheel||0)&255;}else if(kind==='none'){r[3]=1;r[9]=1;}else throw Error('알 수 없는 설정 종류');return r;}
+$('stage').onclick=()=>{try{staged=buildRecord();$('preview').textContent=NAMES[selected]+' / 레이어 '+layer+' / 50바이트 패킷 미리보기: '+dump(staged)+'\n저장 시 기기의 기존 설정을 덮어씁니다.';log('변경사항 미리보기 생성: slot '+selected);update();}catch(e){staged=null;$('preview').textContent='설정 오류: '+e.message;update();}};
+async function write(){if(readOnlyDevice)throw Error('완전한 표준 슬롯 응답이 확인되지 않아 변경 명령은 차단됩니다.');if(!verified||!readOk||!staged||!canWriteSlot(selected))throw Error('해당 슬롯이 현재 레이어에서 정상적으로 읽히지 않았거나 중복 응답 충돌이 있습니다. 설정을 다시 읽으세요.');const record=Uint8Array.from(staged),slot=selected,savedLayer=layer,sharedDelay=record[3]===1?(stepDelays[0]||0):0;
+if(!confirm(NAMES[slot]+'의 레이어 '+savedLayer+' 설정을 실제 장치에 덮어쓰시겠습니까?\n장치의 원래 설정은 백업했는지 확인하세요.'))return;
+// The FE key-record protocol is supported only on listed Standard-family USB devices after identify/read.
+// Deliberately NEVER issue FC (change hardware layout) or EF (firmware update).
+await send(record);if(record[3]===1){const delayRecord=new Uint8Array(50);delayRecord[0]=0xfe;delayRecord[1]=slot;delayRecord[2]=savedLayer;delayRecord[3]=5;delayRecord[4]=sharedDelay&255;delayRecord[5]=(sharedDelay>>8)&255;await new Promise(r=>setTimeout(r,120));await send(delayRecord);log('공통 Delay '+sharedDelay+' ms 기록 전송 (장치에서 지연값 재읽기 불가)');}await new Promise(r=>setTimeout(r,120));await send([0xaa,0xaa]);await new Promise(r=>setTimeout(r,120));await send([0xfd,0xfe,0xff]);await new Promise(r=>setTimeout(r,120));await send([0xaa,0xaa]);await new Promise(r=>setTimeout(r,950));
+log('저장 명령 전송 완료: slot '+slot+'. 장치에서 다시 읽고 검증합니다.');await readLayer();let got=readRecords.get(slot);
+if(!got)throw Error('저장 직후 읽기에서 해당 슬롯이 누락됐습니다.');
+// FA read reports normalize media records differently from the FE write packet:
+// media FE[9] is 0, while FA[9] is consistently 1. Compare semantic fields.
+let compareIndices=[1,2,3];
+if(record[3]===1){
+  compareIndices.push(9);
+  for(let i=10;i<Math.min(50,10+record[9]*2);i++)compareIndices.push(i);
+}else if(record[3]===2){
+  compareIndices.push(10,11);
+}else if(record[3]===3){
+  // Mouse read encoding is not yet verified against this specific firmware.
+  compareIndices.push(10,11,14);
+}
+let mismatches=compareIndices.filter(i=>got[i]!==record[i]);
+let match=mismatches.length===0;
+if(!match)log('저장 검증 불일치 필드: '+mismatches.map(i=>'['+i+'] TX='+record[i].toString(16).padStart(2,'0')+' RX='+got[i].toString(16).padStart(2,'0')).join(', '));
+if(match){info('저장 완료 및 설정값 검증 성공: '+NAMES[slot]+' (장치 재연결 후 유지 여부도 확인하세요)');status('저장 검증 성공','ok');}
+else{info('주의: 쓰기는 전송됐지만 되읽기 값이 일치하지 않습니다. 기존 설정을 확인하고 추가 쓰기는 중단하세요.');status('저장 불일치','warn');}
+}
+$('write').onclick=()=>withBusy(write,true);
+
+// LED settings use a dedicated, independently committed backlight record.
+// Colour codes are discrete firmware palette values, not arbitrary RGB triplets.
+const LED_COLORS={0:'#f5f5f5',1:'#ef4444',2:'#fb923c',3:'#facc15',4:'#22c55e',5:'#22d3ee',6:'#3b82f6',7:'#a855f7'};
+let lastStandardLed=null;
+function refreshStandardLedLastSent(){
+ const t=$('standardLedCurrent');if(!t)return;
+ if(!lastStandardLed){$('standardLastLedDot').style.background='#29292f';$('standardLastLedDot').style.boxShadow='none';t.textContent='현재 LED 색상 읽기 미지원 · 마지막 전송 기록 없음. 위 색상은 편집값 미리보기입니다.';return;}
+ const n=lastStandardLed;
+ const c=n.mode===0?'#29292f':LED_COLORS[n.colorIndex];
+ $('standardLastLedDot').style.background=c;$('standardLastLedDot').style.boxShadow=n.mode===0?'none':'0 0 10px '+c+'88';
+ t.textContent='마지막 전송: '+n.colorText+' / '+n.effectText+' / 레이어 '+n.layer+' · 실제 기기 상태를 읽은 결과는 아닙니다.';
+}
+function updateLedPreview(){
+  const mode=Number($('ledmode').value),colour=Number($('ledcolor').value);
+  const swatchColour=mode===5?LED_COLORS[0]:LED_COLORS[colour];
+  $('ledswatch').style.background=(mode===0||mode===2||mode===3||mode===4)?'#111827':swatchColour;
+  $('ledswatch').style.boxShadow=(mode===0||mode===2||mode===3||mode===4)?'inset 0 0 0 2px '+swatchColour:'0 0 12px '+swatchColour+'88';
+  $('leddescription').textContent=$('ledmode').selectedOptions[0].text+' · '+(mode===5?'White':$('ledcolor').selectedOptions[0].text)+' · 레이어 '+layer;
+  $('ledcolor').disabled=(mode===0||mode===5);
+  refreshStandardLedLastSent();
+}
+$('ledmode').addEventListener('change',updateLedPreview);
+$('ledcolor').addEventListener('change',updateLedPreview);
+$('ledsave').onclick=()=>withBusy(async()=>{
+  if(deviceId(dev)==='1189:8840')throw Error('요청에 따라 1189:8840 LED 색상 설정을 제거했습니다.');
+  if(unlistedDevice||readOnlyDevice)throw Error('새 모델의 LED 명령은 확인되지 않아 차단됩니다.');if(!verified||!dev?.opened)throw Error('먼저 호환 장치를 연결하고 설정 읽기를 완료하세요.');
+  const targetLayer=Number($('layer').value);
+  if(![1,2,3].includes(targetLayer))throw Error('LED 레이어는 1~3만 지원합니다.');
+  const mode=Number($('ledmode').value), colour=Number($('ledcolor').value);
+  if(!Number.isInteger(mode)||mode<0||mode>5||!Number.isInteger(colour)||colour<0||colour>7)throw Error('LED 설정값 범위를 벗어났습니다.');
+  const code=(colour<<4)|mode;
+  if(!confirm('레이어 '+targetLayer+'의 LED만 변경합니다.\n색상: '+$('ledcolor').selectedOptions[0].text+'\n효과: '+$('ledmode').selectedOptions[0].text+'\nKEY/노브 설정은 변경하지 않습니다. 진행할까요?'))return;
+  const rec=new Uint8Array(50);
+  rec[0]=0xfe;rec[1]=0xb0;rec[2]=targetLayer;rec[3]=8;rec[9]=1;rec[11]=code;
+  $('ledstatus').textContent='LED 저장 중';
+  await send(rec);
+  await new Promise(r=>setTimeout(r,150));
+  await send([0xfd,0xfe,0xff]);
+  log('LED 전용 저장 완료: layer='+targetLayer+' mode='+mode+' color='+colour+' code=0x'+hex(code)+' (키/매크로 미변경)');
+  lastStandardLed={layer:targetLayer,colorIndex:mode===5?0:colour,mode,colorText:mode===5?'흰색':$('ledcolor').selectedOptions[0].text,effectText:$('ledmode').selectedOptions[0].text};
+  refreshStandardLedLastSent();
+  $('ledstatus').textContent='LED 명령 전송 완료';
+  info('LED 설정 전송 완료 (읽기 검증은 지원되지 않음). 실제 조명 색상과 효과를 확인하세요.');
+},true).catch(e=>{log('LED 저장 오류: '+e.message);$('ledstatus').textContent='LED 저장 오류';});
+updateLedPreview();
+
+$('backup').onclick=()=>{if(!readOk)return;const payload={model:'CH57x-1 HID (auto-layout)',vendorId:dev.vendorId.toString(16).toUpperCase().padStart(4,'0'),productId:dev.productId.toString(16).toUpperCase().padStart(4,'0'),layer,recordFormat:'WebHID payload offset: [0]=0xFA for reads; 50 bytes per record',note:'이 JSON은 선택한 레이어의 키/노브 설정만 백업합니다. 지연시간과 LED 설정은 읽기 프로토콜에서 제공되지 않을 수 있어 백업/복원 대상이 아닙니다.',savedAt:new Date().toISOString(),records:Array.from(readRecords,([slot,raw])=>({slot,hex:dump(raw),bytes:raw}))};let url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'}));let a=document.createElement('a');a.href=url;a.download='CH57x_'+deviceId(dev).replace(':','_')+'_layer'+layer+'_backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);log('레이어 '+layer+' 백업 JSON 생성');};
+// Restore uses only the documented, read-back-supported 514C:8851 binding record format.
+// Never send device-identity (FC), bootloader (EF), LED or delay commands from backup files.
+// Restore slots depend on the device-reported physical layout.
+const RESTORE_SLOTS=SLOTS;
+const recordCompare=(expected,got)=>{
+  if(!got)return false;
+  let indices=[1,2,3];
+  if(expected[3]===1){indices.push(9);for(let i=10;i<10+expected[9]*2;i++)indices.push(i);}
+  else if(expected[3]===2)indices.push(10,11);
+  else if(expected[3]===3)indices.push(10,11,12,13,14);
+  return indices.every(i=>expected[i]===got[i]);
+};
+function validateRestoreFile(data){
+  if(!data||typeof data!=='object'||Array.isArray(data))throw Error('백업 JSON 객체가 아닙니다.');
+  if(!dev||String(data.vendorId).toUpperCase()!==dev.vendorId.toString(16).toUpperCase().padStart(4,'0')||String(data.productId).toUpperCase()!==dev.productId.toString(16).toUpperCase().padStart(4,'0'))throw Error('현재 연결된 장치와 백업 파일의 VID/PID가 다릅니다.');
+  if(!Number.isInteger(data.layer)||data.layer<1||data.layer>3)throw Error('레이어 값이 잘못되었습니다.');
+  if(!Array.isArray(data.records)||!data.records.length||data.records.length>6)throw Error('슬롯 레코드 개수가 올바르지 않습니다.');
+  let seen=new Set(),entries=[];
+  for(const item of data.records){
+    if(!item||!Number.isInteger(item.slot)||!SLOTS.includes(item.slot)||seen.has(item.slot))throw Error('지원하지 않거나 중복된 슬롯이 있습니다.');
+    seen.add(item.slot);
+    let raw=item.bytes;
+    if(!Array.isArray(raw)||raw.length<16||raw.length>50||raw.some(x=>!Number.isInteger(x)||x<0||x>255))throw Error('슬롯 '+item.slot+'의 바이트 배열이 손상되었습니다.');
+    if(raw[0]!==0xfa||raw[1]!==item.slot||raw[2]!==data.layer||![1,2,3].includes(raw[3]))throw Error('슬롯 '+item.slot+'의 기록 헤더가 잘못되었습니다.');
+    const type=raw[3],count=raw[9];
+    if(type===1){
+      if(count<1||count>18||10+count*2>raw.length)throw Error('슬롯 '+item.slot+'의 매크로 Step 데이터가 불완전합니다. 복원하지 않습니다.');
+    } else if(type===2){if(raw.length<12)throw Error('미디어 데이터 부족');}
+    else if(type===3){if(raw.length<15)throw Error('마우스 데이터 부족');}
+    const out=new Uint8Array(50);out.set(raw);out[0]=0xfe;
+    if(type===2)out[9]=0; // Device normalizes media step count to 1 in FA responses.
+    entries.push({slot:item.slot,record:out,sourceLength:raw.length});
+  }
+  return {layer:data.layer,entries,savedAt:data.savedAt||'알 수 없음'};
+}
+$('restorechoose').onclick=()=>{$('restorefile').value='';$('restorefile').click();};
+$('restorefile').addEventListener('change',async e=>{
+  restorePlan=null;update();
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  try{
+    if(file.size>250000)throw Error('백업 파일이 비정상적으로 큽니다.');
+    const plan=validateRestoreFile(JSON.parse(await file.text()));
+    restorePlan=plan;
+    $('restorepreview').textContent='복원 미리보기: 레이어 '+plan.layer+' / '+plan.entries.length+'개 슬롯 ('+plan.entries.map(x=>x.slot).join(', ')+') / 백업 시간: '+plan.savedAt+'\n원본 백업에는 Delay와 LED 설정이 포함되어 있지 않아 이 값들은 복원하지 않습니다. 각 슬롯을 순차 기록하고 읽기로 검증합니다. 중간 실패 시 이전에 복원한 슬롯은 유지될 수 있습니다.';
+    log('백업 파일 검증 완료: layer '+plan.layer+' / slots '+plan.entries.map(x=>x.slot).join(','));
+    if(plan.layer!==layer)log('복원하려면 먼저 화면의 저장 레이어를 '+plan.layer+'로 바꾸고 백업 파일을 다시 불러오세요.');
+  }catch(err){$('restorepreview').textContent='복원 파일 오류: '+err.message;log('복원 파일 오류: '+err.message);}
+  update();
+});
+async function restoreBackup(){
+  const plan=restorePlan;
+  if(unlistedDevice||readOnlyDevice)throw Error('새 모델의 일괄 복원은 차단됩니다.');if(!plan||!verified||!readOk||layer!==plan.layer)throw Error('장치를 연결하고 백업과 같은 레이어를 먼저 읽으세요.');
+  if(plan.entries.some(e=>!canWriteSlot(e.slot)))throw Error('백업의 슬롯 중 현재 장치에서 읽기 충돌 또는 누락이 발생했습니다. 복원을 중단합니다.');
+  const conflicts=plan.entries.filter(e=>!recordCompare(e.record,readRecords.get(e.slot)));
+  const names=conflicts.map(e=>NAMES[e.slot]||String(e.slot)).join(', ');
+  if(!conflicts.length){log('복원 불필요: 백업 설정과 장치가 이미 일치합니다.');$('restorepreview').textContent='백업과 현재 장치 설정이 일치합니다. 변경할 슬롯이 없습니다.';return;}
+  if(!confirm(idLabel(dev)+' 장치의 레이어 '+plan.layer+'에서 다음 슬롯을 백업 값으로 덮어씁니다:\n'+names+'\n\nDelay 및 LED는 복원되지 않습니다. 계속할까요?'))return;
+  let completed=[];
+  try{
+    for(const entry of conflicts){
+      if(!dev||!dev.opened)throw Error('장치 연결이 끊어졌습니다.');
+      const record=entry.record;
+      await send(record);
+      await new Promise(r=>setTimeout(r,120));await send([0xaa,0xaa]);
+      await new Promise(r=>setTimeout(r,120));await send([0xfd,0xfe,0xff]);
+      await new Promise(r=>setTimeout(r,120));await send([0xaa,0xaa]);
+      await new Promise(r=>setTimeout(r,850));
+      await readLayer();
+      if(conflictSlots.has(entry.slot)||!recordCompare(record,readRecords.get(entry.slot)))throw Error('슬롯 '+entry.slot+' 재읽기 검증 실패');
+      completed.push(entry.slot);
+      log('백업 복원 검증 성공: 슬롯 '+entry.slot);
+    }
+    info('백업 복원 완료: '+completed.length+'개 슬롯 / 레이어 '+plan.layer+' (USB 재연결 후도 확인하세요)');
+    status('백업 복원 성공','ok');$('restorepreview').textContent='복원 및 재읽기 검증 완료: '+completed.join(', ')+'. USB 재연결 후 유지 여부도 확인하세요.';
+    restorePlan=null;
+  }catch(err){
+    log('복원 중단: '+err.message+' / 이미 복원된 슬롯: '+(completed.join(', ')||'없음'));
+    $('restorepreview').textContent='복원 중단: '+err.message+' / 완료된 슬롯: '+(completed.join(', ')||'없음')+' / 나머지는 변경하지 않았습니다.';
+    restorePlan=null;
+    throw err;
+  }
+}
+$('restorewrite').onclick=()=>withBusy(restoreBackup,true);
+
+switchKind();selectDesign('standard',true);markDisconnected();update();
+if(!window.isSecureContext)info('현재 주소는 보안 출처가 아닙니다. HTTPS 사이트 또는 http://localhost에서 실행하세요.');
+</script>
+</body></html>
